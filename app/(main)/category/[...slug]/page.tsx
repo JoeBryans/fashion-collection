@@ -8,14 +8,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
-type Props = {
-  params: {
-    slug: string
-  }
-}
-const page = async ({ params }: Props) => {
-  const param =  params
-  const slug = param.slug
+
+const page = async ({ params }: {
+  params: Promise<{ slug: string }>
+}) => {
+  const { slug } = await params
   const arraySlug = slug
   console.log("arraySlug: ", arraySlug );
 
