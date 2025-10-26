@@ -7,7 +7,7 @@ import { Button } from '../ui/button'
 
 const RelateProducts = ({ relatedProduct }: { relatedProduct: Product[]}) => {
     return (
-        <div className='w-full px-5  mt-10 '>
+        <div className='w-full px-5  mt-10 mx-auto  '>
             <h1 className='text-2xl font-bold line-clamp-2 mx-auto '>You May Also Like</h1>
             <div className='w-full max-w-7xl  mx-auto flex flex-wrap gap-8 p-4 items-start justify-start '>
             
