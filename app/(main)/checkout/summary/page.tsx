@@ -12,7 +12,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, {  useEffect, useState } from 'react'
 
-const page = () => {
+const SummaryPage = () => {
     const { shippingAddress, paymentMethod } = useAppSelector((state) => state.checkout)
     const { cartItems } = useAppSelector((state) => state.cart.cart)
     const router = useRouter()
@@ -67,7 +67,7 @@ const page = () => {
     )
 }
 
-export default page
+export default SummaryPage
 
 
 

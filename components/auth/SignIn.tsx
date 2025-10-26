@@ -110,7 +110,7 @@ export default function SignIn() {
         </Button>
         <div className="w-full flex flex-wrap gap-4 items-center -mt-2  mx-auto justify-center place-items-center">
           <p>
-            <span>Don't have an account?</span>
+            <span>New to Jb-collection?</span>
             <Link href={"/auth/sign-up"}
               className="text-blue-700 font-semibold decoration-1 hover:underline-offset-4 hover:underline"
             > sign up</Link>

@@ -126,7 +126,7 @@ const DetailCard = ({ product }: { product: Product }) => {
                 }
                 <div className='flex gap-2 items-center justify-center  overflow-x-auto '>
                     {product?.colors.map((color: { color: string }, index: number) => {
-                        return <span className={cn('w-max p-1 rounded-md text-neutral-400  cursor-pointer',
+                        return <span key={index} className={cn('w-max p-1 rounded-md text-neutral-400  cursor-pointer',
                             selectedColor === color.color && 'border-3 border-neutral-300 '
                         )}
                             style={{ background: color.color || "black", }}
@@ -143,7 +143,7 @@ const DetailCard = ({ product }: { product: Product }) => {
                 }
                 <div className='flex gap-2 items-center justify-center  overflow-x-auto '>
                     {product.sizes.map((size: { size: string }, index: number) => {
-                        return <span className={cn('w-max py-1 px-2 rounded-md text-neutral-400 border-2 border-neutral-300  cursor-pointer',
+                        return <span key={index} className={cn('w-max py-1 px-2 rounded-md text-neutral-400 border-2 border-neutral-300  cursor-pointer',
                             selectedSize === size.size && 'border-3 border-neutral-300 '
                         )}
 

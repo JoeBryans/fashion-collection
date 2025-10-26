@@ -1,6 +1,7 @@
 import SideFilter from '@/components/custom/Category/SideFilter'
 import Products from '@/components/custom/products/Products'
 import { FilterProducts } from '@/lib/supabase/query'
+import { Product } from '@/lib/types'
 import React from 'react'
 
 interface Props {
@@ -19,22 +20,22 @@ interface Props {
     sort: string
   }
 }
-const page = async({searchParams}:Props) => {
-   const searchParam= await searchParams
-    // console.log("searchParams: ", await searchParams);
-    const products:any= await FilterProducts(searchParam)
-    console.log("result: ", products);
+const page = async ({ searchParams }: Props) => {
+  const searchParam = await searchParams
+  // console.log("searchParams: ", await searchParams);
+  const products: Product[] = await FilterProducts(searchParam)
+  console.log("result: ", products);
 
 
   return (
-      <div className='w-full flex gap-4 sm:flex-row flex-col'>
-          <div className='w-64'>
-              <SideFilter searchParams={searchParam} />
-          </div>
-          <div className='flex-1 '>
-            <Products products={products} />
-          </div>
-        
+    <div className='w-full flex gap-4 sm:flex-row flex-col'>
+      <div className='w-64'>
+        <SideFilter searchParams={searchParam} />
+      </div>
+      <div className='flex-1 '>
+        <Products products={products} />
+      </div>
+
     </div>
   )
 }

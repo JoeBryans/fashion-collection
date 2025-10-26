@@ -17,7 +17,7 @@ const schema = z.object({
     description: z.string().min(3),
 })
 
-const page = () => {
+const NewCategory = () => {
     const [isLoading, setIsLoading] = useState(false)
     const router = useRouter()
     const form = useForm<z.infer<typeof schema>>({
@@ -155,4 +155,4 @@ const page = () => {
     )
 }
 
-export default page
+export default NewCategory

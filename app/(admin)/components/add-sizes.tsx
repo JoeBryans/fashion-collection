@@ -9,7 +9,7 @@ interface Sizes {
     size: string
 }
 
-const AddSizes = ({ setSizes, sizes }: { setSizes: any, sizes: Sizes[] }) => {
+const AddSizes = ({ setSizes, sizes }: { setSizes: React.Dispatch<React.SetStateAction<Sizes[]>>, sizes: Sizes[] }) => {
     // console.log(sizes);
     
     const handleChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {

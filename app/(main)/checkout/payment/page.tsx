@@ -41,7 +41,7 @@ interface PaymentMethod {
   image: string
 }
 
-const page = () => {
+const PaymentPage = () => {
    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<PaymentMethod | null>(null)
   const dispatch = useAppDispatch()
   const router = useRouter()
@@ -83,4 +83,4 @@ const page = () => {
   )
 }
 
-export default page
+export default PaymentPage

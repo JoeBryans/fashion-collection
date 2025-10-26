@@ -11,7 +11,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import { CategoryType } from '@/lib/types'
+import { Category, CategoryType } from '@/lib/types'
 import { Checkbox } from '@/components/ui/checkbox'
 import CategoryForm from '../../components/category-form'
 import { Button } from '@/components/ui/button'
@@ -22,7 +22,7 @@ import { Edit } from 'lucide-react'
 
 
 const page = async () => {
-    const categories: any = await getAllCategories()
+    const categories:Category[] = await getAllCategories()
     return (
         <div>
             <CategoryTable categories={categories} />
@@ -32,7 +32,7 @@ const page = async () => {
 
 export default page
 
-export function CategoryTable({ categories }: { categories: CategoryType[] }) {
+export function CategoryTable({ categories }: { categories: Category[] }) {
     return (
         <div className='w-full max-w-7x px-5'>
             <Table>

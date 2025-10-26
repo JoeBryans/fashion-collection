@@ -28,7 +28,9 @@ const ImageCard = ({ images }: any) => {
             </div>
             <div className='flex gap-2 items-center justify-center mt-4 overflow-x-auto scrollbar-hide px-4 '>
                 {images.map((image: { url: string }, index: number) => {
-                    return <Image src={image.url} alt='product' width={500} height={500}
+                    return <Image src={image.url} 
+                    key={index}
+                    alt='product' width={500} height={500}
                         className='w-44 h-24  object-fill rounded-md '
                         onClick={() => {
                             setImageIndex(index)

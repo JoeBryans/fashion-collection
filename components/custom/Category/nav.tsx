@@ -83,7 +83,7 @@ export function NavigationMenuDemo() {
                                             <li className="text-sm font-semibold text-neutral-600">{child.name}</li>
                                             {
                                                 child.data.map((subChid: any) => {
-                                                    return <li className="">
+                                                    return <li className="" key={subChid.id}>
                     <Link href={`/category/${category.slug}/${child.slug}/${subChid.slug}`}>
                         {subChid.slug}
                     </Link>

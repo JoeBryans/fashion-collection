@@ -4,13 +4,14 @@ import { Label } from '@/components/ui/label'
 import { supabase } from '@/lib/supabase/serverFun'
 import { cn } from '@/lib/utils'
 import { UploadCloud } from 'lucide-react'
-import Image from 'next/image'
 import React, { useState } from 'react'
 import { toast } from 'sonner'
-import { set } from 'zod'
 
+interface Images {
+    url: string
+}
 
-const UploadFile = ({  setImageUrl }: {  setImageUrl: any }) => {
+const UploadFile = ({  setImageUrl }: {  setImageUrl: React.Dispatch<React.SetStateAction<Images[]>> }) => {
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState<String>("")
     const sb = supabase()
@@ -36,9 +37,9 @@ const UploadFile = ({  setImageUrl }: {  setImageUrl: any }) => {
             setImageUrl(uploadImages)
             setIsLoading(false)
            
-        } catch (err: any) {
+        } catch (err) {
             setIsLoading(false)
-            setError(err)
+            setError(err as string)
             console.log(error)
 
 

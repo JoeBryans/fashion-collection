@@ -3,7 +3,7 @@ import SideFilter from '@/components/custom/Category/SideFilter'
 import Currency from '@/components/ui/currency'
 import { getDescendantCategoryIds } from '@/lib/supabase/query'
 import { createClient } from '@/lib/supabase/sever'
-import { ProductType } from '@/lib/types'
+import { Category, ProductType } from '@/lib/types'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
@@ -21,7 +21,7 @@ const page = async ({ params }: Props) => {
 
 
   const supabase = await createClient()
-  let category: any =[]
+  let category:any =[]
   let parentId:string=""
  for (const slug of arraySlug) {
    console.log("slug: ", slug);
@@ -48,7 +48,7 @@ const page = async ({ params }: Props) => {
   }
   console.log("category: ", category);
 
-  const categoryId = await getDescendantCategoryIds(category?.id)
+  const categoryId = await getDescendantCategoryIds(category!.id)
   // console.log("categoryId: ", categoryId);
 
   const { data: products, error: prodError } = await supabase
@@ -56,7 +56,7 @@ const page = async ({ params }: Props) => {
     .select(`
       *,
       category:categoryId ( id, name, slug )
-    `).in("categoryId", categoryId);
+    `).in("categoryId", categoryId!);
 
   // console.log("result: ", products);
 

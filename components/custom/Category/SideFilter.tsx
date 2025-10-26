@@ -91,19 +91,19 @@ const categories: { id: number; name: string; slug: string }[] = [
 ]
 
 interface SearchParamsProps {
-    searchParams: {
-        slug: string
-        id: string
-        category: string
-        size: string
-        minPrice: string
-        maxPrice: string
-        color: string
-        brand: string
-        stockQty: string
-        page: string
-        perPage: string
-        sort: string
+    searchParams?: {
+        slug?: string
+        id?: string
+        category?: string
+        size?: string
+        minPrice?: string
+        maxPrice?: string
+        color?: string
+        brand?: string
+        stockQty?: string
+        page?: string
+        perPage?: string
+        sort?: string
     }
 }
 

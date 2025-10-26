@@ -1,15 +1,13 @@
 "use client"
-import { AddToCartButton, RemoveCartButton } from '@/components/custom/Cart/cart-buttons'
+
 import CartItems from '@/components/custom/Cart/CartItems'
 import { Button } from '@/components/ui/button'
 import Currency from '@/components/ui/currency'
-import { CartItem } from '@/hooks/store/slices/cart-slices'
 import { useAppSelector } from '@/hooks/store/store'
-import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
-const page = () => {
+const CartPage = () => {
     const carts = useAppSelector((state) => state.cart.cart)
     const cartQuantity = carts.totalQuantity
     const cartTotalPrice = carts.totalPrice
@@ -71,4 +69,4 @@ const page = () => {
     )
 }
 
-export default page
+export default CartPage

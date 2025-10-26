@@ -7,7 +7,7 @@ import React from 'react'
 interface Colors {
     color: string
 }
-const AddColors = ({ setColors, colors }: { setColors: any, colors: Colors[] }) => {
+const AddColors = ({ setColors, colors }: { setColors: React.Dispatch<React.SetStateAction<Colors[]>>, colors: Colors[] }) => {
     // const [colorField, setColorField] = React.useState([{ color: "" }])
     // const [value, setValue] = React.useState("")
     // console.log(colors);

@@ -51,7 +51,7 @@ interface Image {
     url: string
 }
 
-const page = () => {
+const NewProduct = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [colors, setColors] = useState<Colors[]>([])
     const [sizes, setSizes] = useState<Sizes[]>([])
@@ -350,9 +350,9 @@ const page = () => {
                         />
 
 
-                        <UploadFile  setImageUrl={setImageUrl} />
+                        <UploadFile setImageUrl={setImageUrl} />
                         <div className='w-full flex gap-4 '>{
-                            imageUrl?.map((image: any, index: number) => {
+                            imageUrl?.map((image: { url: string }, index: number) => {
                                 return (
                                     <div key={index} className='w-20 h-20 flex flex-col gap-2 border-3 rounded-lg '>
                                         <Image src={image.url}
@@ -398,7 +398,7 @@ const page = () => {
     )
 }
 
-export default page
+export default NewProduct
 
 
 
