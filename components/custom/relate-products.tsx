@@ -1,17 +1,17 @@
-import { ProductType } from '@/lib/types'
+import { Product,  } from '@/lib/types'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import Currency from '../ui/currency'
 import { Button } from '../ui/button'
 
-const RelateProducts = ({ relatedProduct }: { relatedProduct: ProductType[] }) => {
+const RelateProducts = ({ relatedProduct }: { relatedProduct: Product[]}) => {
     return (
         <div className='w-full px-5  mt-10 '>
             <h1 className='text-2xl font-bold line-clamp-2 mx-auto '>You May Also Like</h1>
             <div className='w-full max-w-7xl  mx-auto flex flex-wrap gap-8 p-4 items-start justify-start '>
             
-                {relatedProduct && relatedProduct.map((product: ProductType, index: number) => (
+                {relatedProduct && relatedProduct.map((product: Product, index: number) => (
                     <div
 
 

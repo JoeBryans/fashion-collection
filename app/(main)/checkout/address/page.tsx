@@ -21,6 +21,7 @@ const page = async () => {
 
   const { data: address, error: addressError } = await supabase.from('address').select('*').eq('user_id', userInfo?.id)
 
+
   console.log(address)
 
   if (addressError) {

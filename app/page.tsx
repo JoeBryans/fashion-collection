@@ -5,7 +5,7 @@ import { getAllProducts, getCategoriesTree, getSigleCategoryProduct } from "@/li
 import ProductCard from "@/components/home/ProductCard";
 import { NavigationMenuDemo } from "@/components/custom/Category/nav";
 export default async function Home() {
-  const products: any = await getAllProducts()
+  const products = await getAllProducts()
   const result: any = await getCategoriesTree()
 
   // const cat = await getCategoriesTree()

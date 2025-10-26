@@ -1,3 +1,5 @@
+import { Database } from "./supabase/supabase"
+
 export type ProductType = {
   id: string
   name: string
@@ -36,3 +38,11 @@ export type CategoryType = {
   parent_id: string
   slug: string
 }
+
+export type Category=Database["public"]["Tables"]["categories"]["Row"]
+
+export type Product=Database["public"]["Tables"]["product"]["Row"]
+export type Profile=Database["public"]["Tables"]["profile"]["Row"]
+export type Addresses=Database["public"]["Tables"]["address"]["Row"]
+// export type Profile=Database["public"]["Tables"]["cart"]["Row"]
+

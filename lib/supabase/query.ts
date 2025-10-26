@@ -1,7 +1,11 @@
 "use server";
+import { User } from "@supabase/supabase-js";
+import { Addresses, Category, Product } from "../types";
 import { createClient } from "./sever";
-import { CategoryType, ProductType } from "../types";
 
+  import type { Database } from "./supabase";
+
+// import { ProductType } from "../types";
 
 interface SearchParams{
   name?:string
@@ -18,8 +22,11 @@ interface SearchParams{
 
 }
 
+
+
 export const getAllProducts=async ()=>{
   const supabase = await createClient()
+
   const { data, error } = await supabase.from('product').select(
    `*,categoryId(id,name,description)`
   ).order('id', { ascending: true })
@@ -27,7 +34,8 @@ export const getAllProducts=async ()=>{
     console.log(error)
     return 
   }
-  return data
+  const result: Product[] = data
+  return result
 }
 
 // export const getAllCategories=async ()=>{
@@ -49,29 +57,37 @@ export const getProduct=async (id:string)=>{
     console.log(error)
     return
   }
-  return data 
+  const result: Product = data
+  return result
 }
 
-export const getRelatedProducts=async (category:string)=>{
+export const getRelatedProducts=async (category:string|undefined)=>{
   const supabase = await createClient()
   const { data, error } = await supabase.from('product').select(
     '*,categoryId!inner(id, name, description)'
-  ).eq('categoryId.name', category).order('id', { ascending: true })
+  ).eq('categoryId.name', category!).order('id', { ascending: true })
   if (error) {
     console.log(error)
     return
   }
-  return data 
+  const result: Product[] = data
+  return result 
 }
 
 export const getAllCategories=async ()=>{
   const supabase = await createClient()
-  const { data, error } = await supabase.from('categories').select('*').order('id', { ascending: true })
+  try {
+    const { data, error } = await supabase.from('categories').select('*').order('id', { ascending: true })
   if (error) {
     console.log(error)
     return
   }
-  return data
+  const result: Category[] = data
+  return result
+  } catch (error) {
+    console.log(error)
+    return error as Error
+  }
 }
 
 export const getSigleCategoryProduct=async ()=>{
@@ -98,7 +114,9 @@ export const getSigleCategoryProduct=async ()=>{
     }
     // console.log("result: ", category);
     // console.log("name: ", name.name);
-    return category
+
+    const resut: Product[] = category
+    return resut
   }))
 
   const res=result.flat()
@@ -117,7 +135,8 @@ export const getSigleCategoryProduct=async ()=>{
 
 export async function getDescendantCategoryIds(categoryId: string,) {
   const supabase = await createClient();
-  const { data: allCategories } = await supabase
+  try {
+      const { data: allCategories } = await supabase
     .from("categories")
     .select("id, parent_id");
 
@@ -136,6 +155,11 @@ export async function getDescendantCategoryIds(categoryId: string,) {
 
   collectChildren(categoryId);
   return [categoryId, ...descendants];
+   }
+  catch (error) {
+    console.log(error)
+    return
+  }
 }
 
 
@@ -182,8 +206,8 @@ if (error) {
     return
   }
 
-  return data
-    
+  const result: Product[] = data
+  return result   
  } catch (error) {
    console.log(error)
    return
@@ -193,21 +217,18 @@ if (error) {
 }
 
 
-
-
-
-
 export async function getCategoriesTree(){
 
           const supabase = await createClient();
-      const { data, error } = await supabase.from('categories').select('*, parent_id(id, name,slug, description)').order('id', { ascending: true })
+    try {
+        const { data, error } = await supabase.from('categories').select('*, parent_id(id, name,slug, description)').order('id', { ascending: true })
               if (error) {
                   console.log(error)
                   return
               }
-              const parent = data.filter((category:CategoryType ) => category.parent_id === null)
+              const parent = data.filter((category:Category) => category?.parent_id === null)
   
-              const result: any = await Promise.all(parent.map(async (category:CategoryType) => {
+              const result: any = await Promise.all(parent.map(async (category:Category) => {
                   const children = await supabase.from('categories').select('*, parent_id!inner(id, name,slug, description)').eq('parent_id', category?.id).order('id', { ascending: true })
                   // console.log("children: ", children);
                   const leff: any = children?.data?.map(async (child: any) => {
@@ -221,5 +242,44 @@ export async function getCategoriesTree(){
   
                   }
               }))
-              return result
+              const categoryTree: Category[] = result.flat()
+              
+              return categoryTree
+    } catch (error) {
+      console.log(error);
+      return error as Error;
+      
+    }
 }
+
+export async function getUser(){
+  const supabase=await createClient()
+  try {
+     const { data: user, error } = await supabase.auth.getUser()
+  const userInfo:User|null = user?.user
+  return userInfo
+  } catch (error) {
+    console.log(error)
+    return error as Error
+    
+  }
+}
+
+// export async function getAddress(){
+//   const supabase=await createClient()
+//   try {
+//     const userInfo=await getUser()
+//      const { data, error } = await supabase.from('address').select('*').eq('user_id', userInfo.id)
+//      if(error){
+//         console.log(error)
+//         return
+//      }
+//    const result= data
+//   // console.log(address)
+//   return result
+//   } catch (error) {
+//     console.log(error)
+//     return error as Error
+    
+//   }
+// }

@@ -1,17 +1,17 @@
-import { ProductType } from '@/lib/types'
+import { Product } from '@/lib/types'
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import Currency from '@/components/ui/currency'
 import { AddToCartButton } from '../Cart/cart-buttons'
 
-const Products = ({ products }: { products: ProductType[] }) => {
+const Products = ({ products }: { products: Product[] }) => {
 
     return (
         <div className='w-full  px-2 '>
             <div className='w-full max-w-7xl  mx-auto grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 place-items-center '
             >
-                {products && products.map((product: ProductType, index: number) => (
+                {products && products.map((product: Product, index: number) => (
                     <div
 
 

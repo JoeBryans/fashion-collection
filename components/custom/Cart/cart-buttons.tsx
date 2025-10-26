@@ -4,18 +4,18 @@ import { Button } from "@/components/ui/button"
 import { addToCart, CartItem, decreaseCartItemQuantity, removeFromCart } from "@/hooks/store/slices/cart-slices"
 import { useAppDispatch, useAppSelector } from "@/hooks/store/store"
 import { createClient } from "@/lib/supabase/client"
-import { ProductType } from "@/lib/types"
+import { Product } from "@/lib/types"
 import { cn } from "@/lib/utils"
 import { Minus, PlusIcon } from "lucide-react"
 import { toast } from "sonner"
 
 
-export const AddToCartButton = ({ product, selectedColor, selectedSize, className }: { product: ProductType | CartItem, selectedColor?: string, selectedSize?: string, className?: string }) => {
+export const AddToCartButton = ({ product, selectedColor, selectedSize, className }: { product: Product | CartItem, selectedColor?: string, selectedSize?: string, className?: string }) => {
     const cartItem = useAppSelector((state) => state.cart.cart.cartItems.find((item: CartItem) => item.id === product.id))
     const dispatch = useAppDispatch()
     const supabase = createClient()
 
-    const addToCarts = async (product: ProductType | CartItem) => {
+    const addToCarts = async (product: Product | CartItem) => {
         const { data, error } = await supabase.auth.getUser()
         const user = data?.user
         const cartItem: CartItem = {
@@ -59,7 +59,7 @@ export const AddToCartButton = ({ product, selectedColor, selectedSize, classNam
     }
 
 
-    const decreaseCarts = async (product: ProductType | CartItem) => {
+    const decreaseCarts = async (product: Product | CartItem) => {
         dispatch(decreaseCartItemQuantity({ id: product.id }))
     }
 
@@ -109,13 +109,13 @@ export const AddToCartButton = ({ product, selectedColor, selectedSize, classNam
         </>
     )
 }
-export const RemoveCartButton = ({ product, selectedColor, selectedSize, className }: { product: ProductType | CartItem, selectedColor?: string, selectedSize?: string, className?: string }) => {
+export const RemoveCartButton = ({ product, selectedColor, selectedSize, className }: { product: Product | CartItem, selectedColor?: string, selectedSize?: string, className?: string }) => {
     const cartItem = useAppSelector((state) => state.cart.cart.cartItems.find((item: CartItem) => item.id === product.id))
     console.log("cartItem: ", cartItem)
     const dispatch = useAppDispatch()
     const supabase = createClient()
 
-    const removeFromCarts = async (product: ProductType | CartItem) => {
+    const removeFromCarts = async (product: Product | CartItem) => {
         console.log("product: ", product)
         const { data, error } = await supabase.auth.getUser()
         const user = data?.user

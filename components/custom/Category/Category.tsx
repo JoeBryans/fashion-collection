@@ -3,11 +3,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import { motion} from "framer-motion"
-import { ProductType } from '@/lib/types'
+import { Product } from '@/lib/types'
 import { getSigleCategoryProduct } from '@/lib/supabase/query'
 
 const Category = () => {
-    const [categories, setCategories] = React.useState<ProductType[]>([])
+    const [categories, setCategories] = React.useState<Product[]>([])
 
 
     React.useEffect(() => {
@@ -30,7 +30,7 @@ const Category = () => {
              }}
             className='w-full max-w-2xl mx-auto px-5 flex items-center gap-4 justify-center'>
                 {
-                    categories.map((product:ProductType) => {
+                    categories.map((product:Product) => {
                         return (
                             <Link
                                 href={`/category/${product.categoryId.slug}`}

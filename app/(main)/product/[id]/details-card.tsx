@@ -1,5 +1,5 @@
 "use client"
-import { ProductType } from "@/lib/types"
+import { Product, ProductType } from "@/lib/types"
 import Currency from "@/components/ui/currency"
 import { cn } from "@/lib/utils"
 import { useState } from "react"
@@ -51,7 +51,7 @@ interface PaymentMethod {
     image: string
 }
 
-const DetailCard = ({ product }: { product: ProductType }) => {
+const DetailCard = ({ product }: { product: Product }) => {
     const [selectedColor, setSelectedColor] = useState<string>("")
     const [selectedSize, setSelectedSize] = useState<string>("")
 
@@ -118,14 +118,14 @@ const DetailCard = ({ product }: { product: ProductType }) => {
                 </Tooltip>
             </div>
 
-            <p>Price: <Currency price={product.discount} /></p>
-            <p> {product.categoryId.name}</p>
+            <p>Price: <Currency price={product?.discount} /></p>
+            <p> {product.categoryId?.name}</p>
             <div className='flex flex-col gap-2 '>
                 {
-                    product.colors.length > 0 && <span >select color</span>
+                    product.colors && <span >select color</span>
                 }
                 <div className='flex gap-2 items-center justify-center  overflow-x-auto '>
-                    {product.colors.map((color: { color: string }, index: number) => {
+                    {product?.colors.map((color: { color: string }, index: number) => {
                         return <span className={cn('w-max p-1 rounded-md text-neutral-400  cursor-pointer',
                             selectedColor === color.color && 'border-3 border-neutral-300 '
                         )}

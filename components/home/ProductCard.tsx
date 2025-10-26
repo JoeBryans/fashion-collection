@@ -1,5 +1,5 @@
 "use client"
-import { ProductType } from '@/lib/types'
+import { Product } from '@/lib/types'
 import React from 'react'
 import { motion, MotionProps } from "framer-motion"
 import Image from 'next/image'
@@ -8,7 +8,7 @@ import { Button } from '../ui/button'
 import Currency from '../ui/currency'
 import { AddToCartButton } from '../custom/Cart/cart-buttons'
 
-const ProductCard = ({ products }: any) => {
+const ProductCard = ({ products }: { products: Product[] }) => {
     // console.log("pro: ", products);
 
 
@@ -35,7 +35,7 @@ const ProductCard = ({ products }: any) => {
         <div className='w-screen px-2 '>
             <div className='w-full max-w-7xl  mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 place-items-center '
             >
-                {products && products.map((product: ProductType, index: number) => (
+                {products && products.map((product: Product, index: number) => (
                     <motion.div
                         {...productCard}
 
@@ -47,7 +47,7 @@ const ProductCard = ({ products }: any) => {
 
                             <div className='w-60 flex gap-2'>
                                 <Image src={product.images[0].url} alt='product' width={500} height={500}
-                                priority={true}
+                                    priority={true}
                                     className='w-full h-60 object-cover rounded-md shadow-md'
                                 />
                             </div>
@@ -62,12 +62,12 @@ const ProductCard = ({ products }: any) => {
                                     <Currency price={product.price}
                                         className='line-through hidden group-hover:block transition-all ease-in-out duration-300'
                                     />
-                                  
+
 
                                 </div>
                             </div>
                             <AddToCartButton product={product} />
-                          
+
                         </div>
                     </motion.div>
                 ))}

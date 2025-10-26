@@ -1,5 +1,5 @@
 import { getProduct, getRelatedProducts } from '@/lib/supabase/query'
-import { ProductType } from '@/lib/types'
+import { Product, ProductType } from '@/lib/types'
 import Image from 'next/image'
 import React from 'react'
 import ImageCard from './image-card'
@@ -18,8 +18,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 
 const page = async ({ params }: any) => {
     const { id } = await params
-    const product: any = await getProduct(id)
-    const relatedProduct: any = await getRelatedProducts(product.categoryId.name)
+    const product = await getProduct(id)
+    const relatedProduct: any = await getRelatedProducts(product?.categoryId?.name)
     // console.log(relatedProduct)
     return (
         <div className='w-full mt-10 block min-h-screen mb-20'>
@@ -47,7 +47,7 @@ export default page
 
 
 
-const DescriptionCard = ({ description }: { description: ProductType }) => {
+const DescriptionCard = ({ description }: { description: Product }) => {
     return (
         <div className='w-full max-w-5xl px-5 md:px-10 mt-10 '>
             {/* <div className="flex w-full max-w-sm flex-col gap-6"> */}

@@ -14,7 +14,7 @@ interface Adress {
     zip_code: string
     country: string
 }
-const AdressCard = ({ address }: { address: Adress }) => {
+const AdressCard = ({ address }: { address: Adress[] }) => {
     const [selectedAddress, setSelectedAddress] = React.useState<Adress | null>(null)
     const router = useRouter()
     const dispatch = useAppDispatch()

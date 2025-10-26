@@ -39,11 +39,13 @@ export type Database = {
   }
   public: {
     Tables: {
-      category: {
+      categories: {
         Row: {
           created_at: string
           description: string
           id: string
+          parent_id: string
+          slug: string
           name: string
         }
         Insert: {
@@ -63,16 +65,34 @@ export type Database = {
       product: {
         Row: {
           brand: string
-          categoryId: string
-          colors: Json | null
+          categoryId: {
+            id: string
+            name: string
+            description: string
+            slug: string
+            parent_id: string
+          }
+          colors:[
+            {
+              color: string
+            }
+          ] 
           created_at: string
           description: string
-          discount: number | null
+          discount: number 
           id: string
-          images: Json | null
+          images: [
+            {
+              url: string
+            }
+          ]
           name: string
           price: number
-          sizes: Json | null
+          sizes: [
+            {
+              size: string
+            }
+          ]
           slug: string
           stockQty: number
           userId: string
@@ -143,6 +163,36 @@ export type Database = {
           image?: string | null
           name?: string
           phone?: string | null
+        }
+        Relationships: []
+      }
+      address: {
+        Row: {
+          created_at: string
+          location: string
+          id: string
+          country: string 
+          state: string
+          city: string 
+          zip_code:string
+        }
+        Insert: {
+          created_at?: string
+          location: string
+          id?: string
+          city?: string 
+          state: string
+          country?: string 
+          zip_code?: string 
+        }
+        Update: {
+          created_at?: string
+          location: string
+          id?: string
+          city?: string 
+          state: string
+          country?: string 
+          zip_code?: string 
         }
         Relationships: []
       }
