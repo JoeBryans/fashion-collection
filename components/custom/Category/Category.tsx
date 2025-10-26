@@ -12,7 +12,7 @@ const Category = () => {
 
     React.useEffect(() => {
        async function fetchCategories() {
-           const result: any = await getSigleCategoryProduct()
+           const result: Product[] = await getSigleCategoryProduct()
            setCategories(result)
         }
         fetchCategories()

@@ -1,8 +1,12 @@
 "use client"
-import { Button } from '@/components/ui/button'
 import Image from 'next/image'
 import React from 'react'
-const ImageCard = ({ images }: any) => {
+
+interface Images {
+    url: string
+}
+
+const ImageCard = ({ images }: { images: Images[] }) => {
     const [imageIndex, setImageIndex] = React.useState(0)
 
  const handChangeImage=({index,type}:{index:number,type:string})=>{

@@ -81,7 +81,7 @@ const CategoryForm = ({ parent_id }: { parent_id: string, }) => {
                 <DialogHeader>
                     <DialogTitle>Category Form</DialogTitle>
                     <DialogDescription>
-                        remember to add a use slug for your sub category name and it's always unique
+                        remember to add a use slug for your sub category name and it is always unique
                     </DialogDescription>
 
                 </DialogHeader>

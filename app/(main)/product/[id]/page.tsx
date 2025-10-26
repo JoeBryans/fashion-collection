@@ -16,10 +16,15 @@ import {
 } from "@/components/ui/tabs"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
-const page = async ({ params }: any) => {
+interface Props {
+    params: {
+        id: string
+    }
+}
+const page = async ({ params }: Props) => {
     const { id } = await params
     const product = await getProduct(id)
-    const relatedProduct: any = await getRelatedProducts(product?.categoryId?.name)
+    const relatedProduct: Product[] = await getRelatedProducts(product?.categoryId?.name)
     // console.log(relatedProduct)
     return (
         <div className='w-full mt-10 block min-h-screen mb-20'>

@@ -15,6 +15,7 @@ import {
     navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
 import { getCategoriesTree } from "@/lib/supabase/query"
+import { Category } from "@/lib/types"
 
 const components: { title: string; href: string; description: string }[] = [
     {
@@ -56,7 +57,7 @@ const components: { title: string; href: string; description: string }[] = [
 
 export function NavigationMenuDemo() {
     const isMobile = useIsMobile()
-    const [categories, setCategories] = React.useState<any>([])
+    const [categories, setCategories] = React.useState<Category[]>([])
 
     React.useEffect(() => {
         async function catgory() {
@@ -71,18 +72,18 @@ export function NavigationMenuDemo() {
         <NavigationMenu viewport={isMobile} className="w-full mx-auto my-2 ">
             <NavigationMenuList className="flex-wrap z-50 flex w-full relative">
                 {
-                    categories.map((category: any) => {
+                    categories.map((category: Category) => {
                         return <NavigationMenuItem key={category.id} >
                             <NavigationMenuTrigger>{category.name}</NavigationMenuTrigger>
                             <NavigationMenuContent className="grid gap-2 w-full md:w-[500px] md:grid-cols-3 lg:w-[600px]">
                                 {
-                                    category.children.map((child: any) => {
+                                    category?.children.map((child: Category) => {
                                         return <ul key={child.id}
                                             className=" sm:w-[400px] md:w-[500px]  lg:w-[600px]"
                                         >
                                             <li className="text-sm font-semibold text-neutral-600">{child.name}</li>
                                             {
-                                                child.data.map((subChid: any) => {
+                                                child?.data?.map((subChid: Category) => {
                                                     return <li className="" key={subChid.id}>
                     <Link href={`/category/${category.slug}/${child.slug}/${subChid.slug}`}>
                         {subChid.slug}

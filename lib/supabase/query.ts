@@ -228,17 +228,17 @@ export async function getCategoriesTree(){
               }
               const parent = data.filter((category:Category) => category?.parent_id === null)
   
-              const result: any = await Promise.all(parent.map(async (category:Category) => {
+              const result: Category[] = await Promise.all(parent.map(async (category: Category) => {
                   const children = await supabase.from('categories').select('*, parent_id!inner(id, name,slug, description)').eq('parent_id', category?.id).order('id', { ascending: true })
                   // console.log("children: ", children);
-                  const leff: any = children?.data?.map(async (child: any) => {
+                  const leff  = children?.data?.map(async (child: Category) => {
                       const childs = await supabase.from('categories').select('*, parent_id!inner(id, name,slug, description)').eq('parent_id', child.id).order('id', { ascending: true })
                       // console.log("childs: ", childs);
                       return { ...child, data: childs.data }
                   })
                   return {
                       ...category,
-                      children: await Promise.all(leff)
+                      children: await Promise.all(leff!)
   
                   }
               }))

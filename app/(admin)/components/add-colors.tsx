@@ -14,7 +14,7 @@ const AddColors = ({ setColors, colors }: { setColors: React.Dispatch<React.SetS
 
 
     const handleChange = (index: number, e:React.ChangeEvent<HTMLInputElement>) => {
-        const value: any = [...colors]
+        const value: {color:string}[] = [...colors]
         value[index][e.target.name] = e.target.value;
         setColors(value)
         // setValue(e.target.value)

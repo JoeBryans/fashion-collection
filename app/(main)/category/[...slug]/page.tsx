@@ -3,7 +3,7 @@ import SideFilter from '@/components/custom/Category/SideFilter'
 import Currency from '@/components/ui/currency'
 import { getDescendantCategoryIds } from '@/lib/supabase/query'
 import { createClient } from '@/lib/supabase/sever'
-import { Category, ProductType } from '@/lib/types'
+import {  Category, Product,  } from '@/lib/types'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
@@ -21,12 +21,12 @@ const page = async ({ params }: Props) => {
 
 
   const supabase = await createClient()
-  let category:any =[]
+  let category:Category[] =[]
   let parentId:string=""
  for (const slug of arraySlug) {
    console.log("slug: ", slug);
 
-   let query:any =supabase
+   let query =supabase
      .from("categories")
      .select("id, name,slug, parent_id")
      .eq("slug", slug)
@@ -41,14 +41,15 @@ const page = async ({ params }: Props) => {
    const { data, error } = await query.maybeSingle();
 
   //  category = data;
-   parentId = data.id; // move deeper
+  const result: Category = data
+   parentId = result?.id; // move deeper
   //  console.log("category: ", data);
-   category=data
+   category = result
    //  return data
   }
   console.log("category: ", category);
 
-  const categoryId = await getDescendantCategoryIds(category!.id)
+  const categoryId = await getDescendantCategoryIds(category?.id)
   // console.log("categoryId: ", categoryId);
 
   const { data: products, error: prodError } = await supabase
@@ -78,7 +79,7 @@ export default page
 
 
 
-const ProductCard = ({ products }: { products: any }) => {
+const ProductCard = ({ products }: { products: Product[] }) => {
   return (
     <div className='w-full px-5  mt-10 '>
       <h1 className='text-2xl font-bold line-clamp-2 mx-auto '>You May Also Like</h1>

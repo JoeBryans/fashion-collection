@@ -13,7 +13,7 @@ interface Images {
 
 const UploadFile = ({  setImageUrl }: {  setImageUrl: React.Dispatch<React.SetStateAction<Images[]>> }) => {
     const [isLoading, setIsLoading] = useState(false)
-    const [error, setError] = useState<String>("")
+    const [error, setError] = useState<string>("")
     const sb = supabase()
 
     const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {

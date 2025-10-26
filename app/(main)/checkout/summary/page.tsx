@@ -37,21 +37,23 @@ const SummaryPage = () => {
                 console.log(error)
             } else {
                 setUser(data.user)
+                return data.user
             }
         }
         getUser()
     }, [])
-    useEffect(() => {
-        async function getAddress() {
-            const { data, error } = await supabase.from("address").select("*").eq("user_id", user?.id)
-            if (error) {
-                console.log(error)
-            } else {
-                setAddress(data.user)
-            }
-        }
-        getAddress()
-    }, [])
+
+    // useEffect(() => {
+    //     async function getAddress() {
+    //         const { data, error } = await supabase.from("address").select("*").eq("user_id", user?.id)
+    //         if (error) {
+    //             console.log(error)
+    //         } else {
+    //             setAddress(data.user)
+    //         }
+    //     }
+    //     getAddress()
+    // }, [])
 
     return (<div className='w-full '>
 
@@ -146,7 +148,7 @@ const PaymentMethods = ({ paymentMethod }: { paymentMethod: PaymentMethod }) => 
 }
 
 
-const CartItems = ({ cartItems }: any) => {
+const CartItems = ({ cartItems }: { cartItems: CartItem[] }) => {
     return (
         <Card className='flex-1 w-full max-w-2xl'>
             {

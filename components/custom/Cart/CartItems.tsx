@@ -4,7 +4,7 @@ import Image from 'next/image'
 import React from 'react'
 import { AddToCartButton, RemoveCartButton } from './cart-buttons'
 
-const CartItems = ({ cartItems }:any) => {
+const CartItems = ({ cartItems }:{cartItems:CartItem[]}) => {
     return (
         <div className='flex-1 block space-y-4'>
             {
