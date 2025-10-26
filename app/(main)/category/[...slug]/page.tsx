@@ -8,13 +8,10 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
-interface ParamsProps {
-  params: {
-    slug: string
-  }
-}
-const page = async ({ params }: ParamsProps) => {
-  const slug = await params.slug
+
+const page = async ({ params }:{params:{slug:string}}) => {
+  const param = await params
+  const slug = param.slug
   const arraySlug = slug
   console.log("arraySlug: ", arraySlug );
 
