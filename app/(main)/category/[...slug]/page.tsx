@@ -9,9 +9,11 @@ import Link from 'next/link'
 import React from 'react'
 
 
-const page = async ({ params }: { params: {slug:string[]} }) => {
+const page = async ({ params }: { params: { slug: [string]} }) => {
 
   const { slug } =  params
+  console.log("slug: ",slug);
+  
   const arraySlug = slug
   console.log("arraySlug: ", arraySlug );
 
