@@ -1,4 +1,5 @@
 "use client"
+import PlaceOrder from "@/components/custom/checkout/PlaceOrder"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import Currency from "@/components/ui/currency"
@@ -26,11 +27,8 @@ export const Summary = () => {
                     <span>Total</span>
                     <Currency price={totalQuantity + totalPrice} />
                 </div>
-                <Button variant={"dark"}
-                    className='w-full cursor-pointer mt-4'
-                >
-                    Place Order
-                </Button>
+                <PlaceOrder />
+                
             </CardContent>
         </Card>
 
