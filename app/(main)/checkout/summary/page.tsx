@@ -6,6 +6,7 @@ import { CartItem } from '@/hooks/store/slices/cart-slices'
 import { PaymentMethod, ShippingAddress } from '@/hooks/store/slices/checkout'
 import { useAppSelector } from '@/hooks/store/store'
 import { createClient } from '@/lib/supabase/client'
+import { Addresses } from '@/lib/types'
 import { User } from '@supabase/supabase-js'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -17,20 +18,21 @@ const SummaryPage = () => {
     const { cartItems } = useAppSelector((state) => state.cart.cart)
     const router = useRouter()
     const [user, setUser] = useState<User | null>(null)
-    const [address, setAddress] = useState<any>(null)
+    const [address, setAddress] = useState<Addresses | null>(null)
     console.log("shippingAddress",shippingAddress)
     console.log("paymentMethod",paymentMethod)
     
-    if (shippingAddress.city === ""|| shippingAddress.state === ""|| shippingAddress.zip_code === ""|| shippingAddress.country === "") {
-        return  router.push("/checkout/address")
-    }
-    if(paymentMethod.name === ""){
-        return  router.push("/checkout/paymentMethod")
-    }
-
+   
     const supabase = createClient()
 
     useEffect(() => {
+        if (shippingAddress.city === "" || shippingAddress.state === "" || shippingAddress.zip_code === "" || shippingAddress.country === "") {
+            return router.push("/checkout/address")
+        }
+        if (paymentMethod.name === "") {
+            return router.push("/checkout/paymentMethod")
+        }
+
         async function getUser() {
             const { data, error } = await supabase.auth.getUser()
             if (error) {
