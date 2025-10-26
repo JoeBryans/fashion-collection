@@ -9,9 +9,15 @@ import Link from 'next/link'
 import React from 'react'
 
 
-const page = async (props: PageProps<'/category/[...slug]'>) => {
+interface ShopPageProps {
+  params: {
+    slug: string[]; // This is the type for the catch-all segment
+  };
+}
 
-  const { slug } =  props.params
+async function page({ params }: ShopPageProps) {
+  const { slug } = params;
+
   // console.log("slug");
   
   const arraySlug = slug
