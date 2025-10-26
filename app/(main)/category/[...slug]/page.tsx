@@ -9,10 +9,10 @@ import Link from 'next/link'
 import React from 'react'
 
 
-const page = async({ params }: { params: Promise<{ slug: string[]}> } ) => {
+const page = async (props: PageProps<'/category/[...slug]'>) => {
 
-  const { slug } = await params
-  console.log("slug: ",slug);
+  const { slug } =  props.params
+  // console.log("slug");
   
   const arraySlug = slug
   console.log("arraySlug: ", arraySlug );
