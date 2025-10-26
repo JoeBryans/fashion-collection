@@ -1,0 +1,42 @@
+import SideFilter from '@/components/custom/Category/SideFilter'
+import Products from '@/components/custom/products/Products'
+import { FilterProducts } from '@/lib/supabase/query'
+import React from 'react'
+
+interface Props {
+  searchParams: {
+    slug: string
+    id: string
+    category: string
+    size: string
+    minPrice: string
+    maxPrice: string
+    color: string
+    brand: string
+    stockQty: string
+    page: string
+    perPage: string
+    sort: string
+  }
+}
+const page = async({searchParams}:Props) => {
+   const searchParam= await searchParams
+    // console.log("searchParams: ", await searchParams);
+    const products:any= await FilterProducts(searchParam)
+    console.log("result: ", products);
+
+
+  return (
+      <div className='w-full flex gap-4 sm:flex-row flex-col'>
+          <div className='w-64'>
+              <SideFilter searchParams={searchParam} />
+          </div>
+          <div className='flex-1 '>
+            <Products products={products} />
+          </div>
+        
+    </div>
+  )
+}
+
+export default page
