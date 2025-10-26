@@ -10,7 +10,7 @@ import React from 'react'
 
 
 const page = async ({ params }:{params:{slug:string}}) => {
-  const param = await params
+  const param =  params
   const slug = param.slug
   const arraySlug = slug
   console.log("arraySlug: ", arraySlug );
