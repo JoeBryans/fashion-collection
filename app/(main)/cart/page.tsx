@@ -47,7 +47,7 @@ const CartPage = () => {
                                 variant="outline"
                                 className="w-full mt-4 cursor-pointer"
                             >
-                                <Link href="/checkout">Checkout</Link>
+                                <Link href="/checkout/summary">Checkout</Link>
                             </Button>
 
 

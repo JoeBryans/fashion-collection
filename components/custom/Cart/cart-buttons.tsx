@@ -111,7 +111,7 @@ export const AddToCartButton = ({ product, selectedColor, selectedSize, classNam
 }
 export const RemoveCartButton = ({ product, selectedColor, selectedSize, className }: { product: Product | CartItem, selectedColor?: string, selectedSize?: string, className?: string }) => {
     const cartItem = useAppSelector((state) => state.cart.cart.cartItems.find((item: CartItem) => item.id === product.id))
-    console.log("cartItem: ", cartItem)
+    // console.log("cartItem: ", cartItem)
     const dispatch = useAppDispatch()
     const supabase = createClient()
 
