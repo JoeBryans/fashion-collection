@@ -35,8 +35,6 @@ const PlaceOrder = () => {
 
     return (
         <div>
-            k';
-
             <Button variant={"dark"}
             className='w-full cursor-pointer mt-4'
                 onClick={() => initializePayment({ onSuccess, onClose })}
