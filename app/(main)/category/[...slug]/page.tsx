@@ -9,14 +9,14 @@ import Link from 'next/link'
 import React from 'react'
 
 
-interface Props {
+interface ShopPageProps {
   params: {
-    slug: string
-  }
+    slug: string[]; // This is the type for the catch-all segment
+  };
 }
-const page = async ({ params }: Props) => {
-  const slug = await params.slug
-  // const { slug } = params;
+
+async function page({ params }: ShopPageProps) {
+  const { slug } = params;
 
   // console.log("slug");
   
