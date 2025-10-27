@@ -40,17 +40,21 @@ export async function POST(request: NextRequest) {
         const userInfo: User | null = data?.user
         const user_id = userInfo?.id
         // console.log("userInfo: ", userInfo);
-        const { data: orders, error: err } = await supabase.from('orders').insert([
-            {
-                user_id: user_id,
-                total_quantity: items_quantity,
-                total_price: total_price,
-                order_status: "pending",
-                payment_method: payment_method,
-                payment_status: "unpaid",
-                shipping_address: shipping_address,
-            }
-        ]).select('*').single()
+        const payload = {
+            user_id: user_id,
+            total_quantity: items_quantity,
+            total_price: total_price,
+            order_status: "pending",
+            payment_method: payment_method,
+            payment_status: "unpaid",
+            shipping_address: shipping_address,
+        }
+
+        const { data: orders, error: err } = await supabase
+            .from('orders')
+            .insert([payload] as any)
+            .select('*')
+            .single()
         console.log("orders: ", orders);
         if (err) {
             console.log(err)
@@ -68,9 +72,8 @@ export async function POST(request: NextRequest) {
                 // sub_total:item.sub_total,
             }
 
-        })
+        }) as any
         //    console.log("items: ",Items);
-
 
 
         const { data: order_item, error: err1 } = await supabase.from('order_items').insert(Items).select('*')
@@ -80,6 +83,7 @@ export async function POST(request: NextRequest) {
             return err1
 
         }
+       
         // console.log("item: ", items);
 
         const payment = await paystack.transaction.initialize({

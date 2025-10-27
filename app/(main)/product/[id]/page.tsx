@@ -15,14 +15,18 @@ import {
     TabsTrigger,
 } from "@/components/ui/tabs"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { type NextPage } from 'next';
 
-interface Props {
-    params: {
-        id: string
-    }
-}
-const page = async ({ params }: Props) => {
-    const { id } = await params
+// Define the Props type for the page
+type Props = {
+  params: Promise<{
+    id: string;
+  }>;
+};
+
+// Page component
+const Page: NextPage<Props> = async ({ params }) => {
+    const { id } =await  params
     const product = await getProduct(id)
     const relatedProduct: Product[] = await getRelatedProducts(product?.categoryId?.name)
     // console.log(relatedProduct)

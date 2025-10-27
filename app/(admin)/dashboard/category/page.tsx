@@ -22,7 +22,7 @@ import { Edit } from 'lucide-react'
 
 
 const page = async () => {
-    const categories:Category[] = await getAllCategories()
+    const categories = await getAllCategories()
     return (
         <div>
             <CategoryTable categories={categories} />
@@ -32,7 +32,7 @@ const page = async () => {
 
 export default page
 
-export function CategoryTable({ categories }: { categories: Category[] }) {
+function CategoryTable({ categories }: { categories: Category[] }) {
     return (
         <div className='w-full max-w-7x px-5'>
             <Table>

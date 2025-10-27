@@ -2,25 +2,27 @@ import SideFilter from '@/components/custom/Category/SideFilter'
 import Products from '@/components/custom/products/Products'
 import { FilterProducts } from '@/lib/supabase/query'
 import { Product } from '@/lib/types'
+import { NextPage } from 'next'
 import React from 'react'
-
-interface Props {
-  searchParams: {
-    slug: string
-    id: string
-    category: string
-    size: string
-    minPrice: string
-    maxPrice: string
-    color: string
-    brand: string
-    stockQty: string
-    page: string
-    perPage: string
-    sort: string
-  }
+import { int } from 'zod'
+interface SearchParams{
+  slug: string
+  id: string
+  category: string
+  size: string
+  minPrice: string
+  maxPrice: string
+  color: string
+  brand: string
+  stockQty: string
+  page: string
+  perPage: string
+  sort: string
 }
-const page = async ({ searchParams }: Props) => {
+type Props={
+    searchParams: Promise<SearchParams>
+}
+const page:NextPage<Props> = async ({ searchParams }: Props) => {
   const searchParam = await searchParams
   // console.log("searchParams: ", await searchParams);
   const products: Product[] = await FilterProducts(searchParam)
