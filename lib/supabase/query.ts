@@ -112,12 +112,13 @@ export const getSigleCategoryProduct=async ()=>{
       console.log(error)
       return
     }
+    // const safeResult = Array.isArray(result) ? result : []
     // console.log("result: ", category);
     // console.log("name: ", name.name);
 
     const resut: Product[] = category
     return resut
-  }))
+  })) 
 
   const res=result.flat()
     // console.log("res: ", res);
@@ -129,7 +130,7 @@ export const getSigleCategoryProduct=async ()=>{
   
  }
 
-}
+} 
 
 
 
@@ -142,10 +143,13 @@ export async function getDescendantCategoryIds(categoryId: string,) {
 
   if (!allCategories) return [];
 
+
+
   const descendants: string[] = [];
 
   function collectChildren(parentId: string) {
-    allCategories!.forEach((cat:{parent_id:string,id:string}) => {
+    if (!allCategories) return;
+    allCategories.forEach((cat:{parent_id:string,id:string}) => {
       if (cat.parent_id === parentId) {
         descendants.push(cat.id);
         collectChildren(cat.id);
@@ -154,7 +158,7 @@ export async function getDescendantCategoryIds(categoryId: string,) {
   }
 
   collectChildren(categoryId);
-  return [categoryId, ...descendants];
+  return [categoryId, ...descendants] as string[];
    }
   catch (error) {
     console.log(error)

@@ -18,6 +18,27 @@ interface OrderBody {
     payment_method: string
     order_items: OrderItems[]
 }
+interface  orderPayload  {
+    user_id: string,
+    total_quantity: number,
+    total_price: number,
+    order_status:string,
+    payment_method: string,
+    payment_status: string,
+    shipping_address: {
+        location: string
+        city: string
+        state: string
+        zip_code: string
+        country: string
+    },
+}
+interface ItemsPayload {
+    order_id: string
+    product_id: string
+    quantity: number
+    price: number
+}
 
 const paystack = PayStack(process.env.PAYSTACK_SECRET_KEY!
 )
@@ -35,30 +56,34 @@ export async function POST(request: NextRequest) {
         const { data, error } = await supabase.auth.getUser()
         if (error) {
             console.log(error)
-            return
+            return NextResponse.json({ error: error.message }, { status: 401 });
+
         }
         const userInfo: User | null = data?.user
         const user_id = userInfo?.id
         // console.log("userInfo: ", userInfo);
-        const payload = {
-            user_id: user_id,
-            total_quantity: items_quantity,
-            total_price: total_price,
-            order_status: "pending",
-            payment_method: payment_method,
-            payment_status: "unpaid",
-            shipping_address: shipping_address,
-        }
+      
 
         const { data: orders, error: err } = await supabase
             .from('orders')
-            .insert([payload] as any)
+            .insert([
+                {
+                    user_id: user_id,
+                    total_quantity: items_quantity,
+                    total_price: total_price,
+                    order_status: "pending",
+                    payment_method: payment_method,
+                    payment_status: "unpaid",
+                    shipping_address: shipping_address,
+                }
+            ])
             .select('*')
             .single()
         console.log("orders: ", orders);
         if (err) {
             console.log(err)
-            return
+       return NextResponse.json({ error: err.message }, { status: 401 });
+
         }
         const order: Orders = orders
         const order_id = order?.id
@@ -66,21 +91,21 @@ export async function POST(request: NextRequest) {
         const Items = order_items.map((item: OrderItems) => {
             return {
                 order_id: order.id,
-                product_id: item.id,
+                product_id: String(item.id),
                 quantity: item.quantity,
                 price: item.price,
                 // sub_total:item.sub_total,
             }
 
-        }) as any
-        //    console.log("items: ",Items);
+        })  as ItemsPayload[]
+           console.log("items: ",Items);
 
 
         const { data: order_item, error: err1 } = await supabase.from('order_items').insert(Items).select('*')
         console.log("order_item: ", order_item);
         if (err1) {
             console.log(err1.message)
-            return err1
+            return NextResponse.json({ error: err1.message }, { status: 401 });
 
         }
        

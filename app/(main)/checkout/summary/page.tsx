@@ -77,7 +77,7 @@ export default SummaryPage
 
 
 
-const DeliveryAddress = ({ shippingAddress, user }: { shippingAddress?: ShippingAddress, user:User }) => {
+const DeliveryAddress = ({ shippingAddress, user }: { shippingAddress?: ShippingAddress, user: User | null }) => {
 
     // const shippingAddress = {
     //     address: "address",

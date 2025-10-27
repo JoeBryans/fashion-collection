@@ -71,7 +71,7 @@ export type Database = {
             description: string
             slug: string
             parent_id: string
-          }
+          } 
           colors:[
             {
               color: string

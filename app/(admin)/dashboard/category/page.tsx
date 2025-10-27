@@ -23,9 +23,12 @@ import { Edit } from 'lucide-react'
 
 const page = async () => {
     const categories = await getAllCategories()
+    // Ensure categories is always an array
+    const safeCategories =
+        Array.isArray(categories) ? categories : []
     return (
         <div>
-            <CategoryTable categories={categories} />
+            <CategoryTable categories={safeCategories} />
         </div>
     )
 }

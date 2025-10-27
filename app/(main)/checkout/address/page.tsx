@@ -2,6 +2,7 @@
 import Address from '@/components/custom/address/Address'
 import AdressCard from '@/components/custom/address/AdressCard'
 import { createClient } from '@/lib/supabase/sever'
+import { Addresses } from '@/lib/types'
 import { redirect, RedirectType } from 'next/navigation'
 import React from 'react'
 
@@ -21,7 +22,7 @@ const page = async () => {
 
   const { data: address, error: addressError } = await supabase.from('address').select('*').eq('user_id', userInfo?.id)
 
-
+  //  const result: Addresses  = address || [];
   console.log(address)
 
   if (addressError) {
@@ -33,7 +34,7 @@ const page = async () => {
   return (
     <div> 
       <div>
-      <AdressCard address={address} />
+        <AdressCard address={address} />
     </div>
 
 

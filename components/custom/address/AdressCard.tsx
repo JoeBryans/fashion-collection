@@ -2,24 +2,17 @@
 import { Checkbox } from '@/components/ui/checkbox'
 import { createAdresse } from '@/hooks/store/slices/checkout'
 import { useAppDispatch } from '@/hooks/store/store'
+import { Addresses } from '@/lib/types'
 import { cn } from '@/lib/utils'
 import { useRouter } from 'next/navigation'
 import React from 'react'
-interface Adress {
-    id: string
-    user_id: string
-    location: string
-    city: string
-    state: string
-    zip_code: string
-    country: string
-}
-const AdressCard = ({ address }: { address: Adress[] }) => {
-    const [selectedAddress, setSelectedAddress] = React.useState<Adress | null>(null)
+
+const AdressCard = ({ address }: { address: Addresses[] }) => {
+    const [selectedAddress, setSelectedAddress] = React.useState<Addresses | null>(null)
     const router = useRouter()
     const dispatch = useAppDispatch()
 
-    const handelSelectAddress = (address: Adress) => {
+    const handelSelectAddress = (address: Addresses) => {
         setSelectedAddress(address)
         dispatch(createAdresse(address))
         router.push(`/checkout/summary`)
@@ -30,7 +23,7 @@ const AdressCard = ({ address }: { address: Adress[] }) => {
         <div className=' w-full max-w-3xl p-5 '>
             <div className='flex flex-col gap-4 border-2 bg-white  rounded-lg p-4  '>
                 {
-                    address.map((address: Adress) => {
+                    address.map((address: Addresses) => {
                         return (
                             <div key={address.id} className={cn('flex  gap-2  border-b-2 p-2 ',
                                 selectedAddress?.id === address.id ? 'border-2 rounded-lg' : 'bg-white text-neutral-800'

@@ -6,6 +6,7 @@ import ProductCard from "@/components/home/ProductCard";
 import { NavigationMenuDemo } from "@/components/custom/Category/nav";
 export default async function Home() {
   const products = await getAllProducts()
+  const safeProducts = Array.isArray(products) ? products : []
 
   return (
     <div className="w-full mx-auto place-items-center relative mb-20">
@@ -18,7 +19,7 @@ export default async function Home() {
 
       <div className="mt-34 place-items-center w-full px-14">
 
-        <ProductCard products={products} />
+        <ProductCard products={safeProducts} />
       </div>
     </div>
   );

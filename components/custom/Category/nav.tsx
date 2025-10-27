@@ -55,15 +55,36 @@ const components: { title: string; href: string; description: string }[] = [
     },
 ]
 
+interface Children {
+    id?: string
+    name?: string
+    slug?: string
+    parent_id?: Category
+    description?: string
+    crated_at?: string
+    data?: Category[]
+}
+
+interface SelectCategoryResult {
+    id?: string
+    name?: string
+    slug?: string
+    parent_id?: string
+    description?: string
+    crated_at?: string
+    children?: Children[]
+}
+
 export function NavigationMenuDemo() {
     const isMobile = useIsMobile()
-    const [categories, setCategories] = React.useState<Category[]>([])
+    const [categories, setCategories] = React.useState<SelectCategoryResult[]>([])
 
     React.useEffect(() => {
         async function catgory() {
             const result = await getCategoriesTree()
             console.log("result: ", result)
-            setCategories(result)
+            const safeResult = Array.isArray(result) ? result : []
+            setCategories(safeResult)
         }
         catgory()
     }, [])
@@ -72,12 +93,12 @@ export function NavigationMenuDemo() {
         <NavigationMenu viewport={isMobile} className="w-full mx-auto my-2 ">
             <NavigationMenuList className="flex-wrap z-50 flex w-full relative">
                 {
-                    categories.map((category: Category) => {
+                    categories.map((category: SelectCategoryResult) => {
                         return <NavigationMenuItem key={category.id} >
                             <NavigationMenuTrigger>{category.name}</NavigationMenuTrigger>
                             <NavigationMenuContent className="grid gap-2 w-full md:w-[500px] md:grid-cols-3 lg:w-[600px]">
                                 {
-                                    category?.children.map((child: Category) => {
+                                    category.children!.map((child: Children) => {
                                         return <ul key={child.id}
                                             className=" sm:w-[400px] md:w-[500px]  lg:w-[600px]"
                                         >

@@ -25,8 +25,10 @@ type Props={
 const page:NextPage<Props> = async ({ searchParams }: Props) => {
   const searchParam = await searchParams
   // console.log("searchParams: ", await searchParams);
-  const products: Product[] = await FilterProducts(searchParam)
+  const product = await FilterProducts(searchParam)
+  const products = Array.isArray(product) ? product : []
   console.log("result: ", products);
+
 
 
   return (

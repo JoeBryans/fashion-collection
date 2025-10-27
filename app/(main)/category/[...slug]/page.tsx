@@ -2,8 +2,8 @@ import { AddToCartButton } from '@/components/custom/Cart/cart-buttons'
 import SideFilter from '@/components/custom/Category/SideFilter'
 import Currency from '@/components/ui/currency'
 import { getDescendantCategoryIds } from '@/lib/supabase/query'
-import { createClient } from '@/lib/supabase/sever'
-import {  Category, Product,  } from '@/lib/types'
+import { supabase } from '@/lib/supabase/serverFun'
+import { Category, Product, } from '@/lib/types'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
@@ -21,51 +21,58 @@ const Page: NextPage<Props> = async ({ params }) => {
   const { slug } = await params;
 
   // console.log("slug");
-  
+
   const arraySlug = slug
-  console.log("arraySlug: ", arraySlug );
+  console.log("arraySlug: ", arraySlug);
 
 
 
-  const supabase = await createClient()
-  let category:Category[] =[]
-  let parentId:string=""
- for (const slug of arraySlug) {
-   console.log("slug: ", slug);
+  const sb = supabase()
+  let category: Category | null = null
+  let parentId: string = ""
+  for (const slug of arraySlug) {
+    console.log("slug: ", slug);
 
-   let query =supabase
-     .from("categories")
-     .select("id, name,slug, parent_id")
-     .eq("slug", slug)
-     .limit(1) // 👈 prevents multiple matches
+    let query = sb
+      .from("categories")
+      .select("id, name,slug, parent_id")
+      .eq("slug", slug)
+      .limit(1) // 👈 prevents multiple matches
 
 
-   if (parentId === null || parentId === "" || parentId === undefined) {
-     query = query?.is("parent_id", null);
-   } else {
-     query = query?.eq("parent_id", parentId);
-   }
-   const { data, error } = await query.maybeSingle();
+    if (parentId === null || parentId === "" || parentId === undefined) {
+      query = query?.is("parent_id", null);
+    } else {
+      query = query?.eq("parent_id", parentId);
+    }
+    const { data, error } = await query.maybeSingle<Category>();
 
-  //  category = data;
-  const result: Category = data
-   parentId = result?.id; // move deeper
-  //  console.log("category: ", data);
-   category = result
-   //  return data
+    //  category = data;
+    const result: Category | null = data;
+    if (!result) {
+      // if no category was found, stop traversing deeper
+      break;
+    }
+    parentId = result?.id; // move deeper
+    //  console.log("category: ", data);
+    category = result
+    //  return data
   }
   console.log("category: ", category);
 
-  const categoryId = await getDescendantCategoryIds(category?.id)
-  // console.log("categoryId: ", categoryId);
+  const categoryId = await getDescendantCategoryIds(category!.id)
 
-  const { data: products, error: prodError } = await supabase
+  const cat_id = Array.isArray(categoryId) ? categoryId : []
+
+
+  const { data: products, error: prodError } = await sb
     .from("product")
     .select(`
       *,
       category:categoryId ( id, name, slug )
-    `).in("categoryId", categoryId!);
+    `).in("categoryId", cat_id);
 
+  const safeProducts = Array.isArray(products) ? products : []
   // console.log("result: ", products);
 
   return (
@@ -75,7 +82,7 @@ const Page: NextPage<Props> = async ({ params }) => {
       </div>
 
       <div className='flex-1'>
-        <ProductCard products={products} />
+        <ProductCard products={safeProducts} />
       </div>
 
     </div>
@@ -92,7 +99,7 @@ const ProductCard = ({ products }: { products: Product[] }) => {
       <h1 className='text-2xl font-bold line-clamp-2 mx-auto '>You May Also Like</h1>
       <div className='w-full max-w-7xl  mx-auto flex flex-wrap gap-8 p-4 items-start justify-start '>
 
-        {products && products?.map((product: ProductType, index: number) => (
+        {products && products?.map((product: Product, index: number) => (
           <div
 
 

@@ -12,8 +12,11 @@ const Category = () => {
 
     React.useEffect(() => {
        async function fetchCategories() {
-           const result: Product[] = await getSigleCategoryProduct()
-           setCategories(result)
+           const result = await getSigleCategoryProduct()
+           if (result) {
+               setCategories(result.filter((p): p is NonNullable<typeof p> => p !== undefined));
+           }
+        //    setCategories(result)
         }
         fetchCategories()
     }, [])

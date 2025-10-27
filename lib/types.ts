@@ -46,6 +46,5 @@ export type Profile=Database["public"]["Tables"]["profile"]["Row"]
 export type Addresses=Database["public"]["Tables"]["address"]["Row"]
 export type Orders=Database["public"]["Tables"]["orders"]["Row"]
 export type OrderItems=Database["public"]["Tables"]["order_items"]["Row"]
-
 // export type Profile=Database["public"]["Tables"]["cart"]["Row"]
 

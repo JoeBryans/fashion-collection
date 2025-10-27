@@ -34,7 +34,8 @@ const UploadFile = ({  setImageUrl }: {  setImageUrl: React.Dispatch<React.SetSt
                 return {url:sbUrl.publicUrl}
             }))
             console.log("uploadImages: ", uploadImages)
-            setImageUrl(uploadImages)
+            const filteredImages = uploadImages.filter((img): img is Images => img !== undefined)
+            setImageUrl(filteredImages)
             setIsLoading(false)
            
         } catch (err) {

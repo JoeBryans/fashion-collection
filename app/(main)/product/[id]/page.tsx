@@ -28,20 +28,22 @@ type Props = {
 const Page: NextPage<Props> = async ({ params }) => {
     const { id } =await  params
     const product = await getProduct(id)
-    const relatedProduct: Product[] = await getRelatedProducts(product?.categoryId?.name)
+    const relatedProduct= await getRelatedProducts(product?.categoryId?.name)
+    const safeRelatedProduct = Array.isArray(relatedProduct) ? relatedProduct : []
     // console.log(relatedProduct)
     return (
         <div className='w-full mt-10 block min-h-screen mb-20'>
             <div className='flex flex-col gap-8 max-w-7xl mx-auto '>
                 <div className='flex gap-8 w-full mx-auto flex-wrap items-start justify-start '>
-                    <ImageCard images={product?.images} />
-                    <DetailCard product={product} />
+                    
+                    {product && <ImageCard images={product?.images} />}
+                    {product && <DetailCard product={product} />}
 
                 </div>
 
-                <RelateProducts relatedProduct={relatedProduct} />
+                <RelateProducts relatedProduct={safeRelatedProduct} />
 
-                <DescriptionCard description={product} />
+                {product && <DescriptionCard description={product} />}
 
                 {/* Recent View */}
 
@@ -52,7 +54,7 @@ const Page: NextPage<Props> = async ({ params }) => {
     )
 }
 
-export default page
+export default Page
 
 
 

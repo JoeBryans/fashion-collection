@@ -1,8 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import  { ProductType } from '@/lib/types'
-import { int } from 'zod'
-import { clear } from 'console'
+
 
 export interface CartItem {
     id: string

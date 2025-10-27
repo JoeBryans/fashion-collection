@@ -47,7 +47,7 @@ interface Sizes {
     size: string
 }
 
-interface Image {
+interface Images {
     url: string
 }
 
@@ -55,7 +55,7 @@ const NewProduct = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [colors, setColors] = useState<Colors[]>([])
     const [sizes, setSizes] = useState<Sizes[]>([])
-    const [imageUrl, setImageUrl] = useState<Image[]>()
+    const [imageUrl, setImageUrl] = useState<Images[]>([])
 
 
     // const images: any = []
