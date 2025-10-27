@@ -196,6 +196,87 @@ export type Database = {
         }
         Relationships: []
       }
+          order_items: {
+        Row: {
+          created_at: string
+          id: number
+          order_id: string | null
+          price: number
+          product_id: string
+          quantity: number
+          sub_total: number | null
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          order_id?: string | null
+          price: number
+          product_id?: string
+          quantity: number
+          sub_total?: number | null
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          order_id?: string | null
+          price?: number
+          product_id?: string
+          quantity?: number
+          sub_total?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_items_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "order_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "product"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          created_at: string
+          id: string
+          order_status: Database["public"]["Enums"]["order_status"]
+          payment_method: string
+          payment_status: Database["public"]["Enums"]["payment_status"]
+          shipping_address: Json
+          total_price: number
+          total_quantity: number
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          order_status?: Database["public"]["Enums"]["order_status"]
+          payment_method: string
+          payment_status?: Database["public"]["Enums"]["payment_status"]
+          shipping_address: Json
+          total_price: number
+          total_quantity: number
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          order_status?: Database["public"]["Enums"]["order_status"]
+          payment_method?: string
+          payment_status?: Database["public"]["Enums"]["payment_status"]
+          shipping_address?: Json
+          total_price?: number
+          total_quantity?: number
+          user_id?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -204,7 +285,8 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      order_status: "pending" | "paid" | "delivered" | "shipped" | "cancel"
+      payment_status: "pending" | "paid" | "successful" | "cancel" | "failed"|"unpaid"
     }
     CompositeTypes: {
       [_ in never]: never

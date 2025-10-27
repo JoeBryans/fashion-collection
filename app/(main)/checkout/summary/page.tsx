@@ -19,8 +19,8 @@ const SummaryPage = () => {
     const router = useRouter()
     const [user, setUser] = useState<User | null>(null)
     const [address, setAddress] = useState<Addresses | null>(null)
-    console.log("shippingAddress",shippingAddress)
-    console.log("paymentMethod",paymentMethod)
+    // console.log("shippingAddress",shippingAddress)
+    // console.log("paymentMethod",paymentMethod)
     
    
     const supabase = createClient()

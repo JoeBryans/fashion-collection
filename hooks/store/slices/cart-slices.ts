@@ -50,7 +50,9 @@ const cartSlices = createSlice({
         addToCart: (state, action: PayloadAction<CartItem >) => {
             const existingItem = state.cart.cartItems.find((item) => item.id === action.payload.id)
             if (existingItem) {
-                existingItem.quantity += 1
+               const q=  existingItem.quantity += 1
+                existingItem.price*=q
+               
             }
             else {
                 state.cart.cartItems.push(action.payload)
@@ -64,7 +66,8 @@ const cartSlices = createSlice({
         decreaseCartItemQuantity: (state, action: PayloadAction<{ id: string }>) => {
             const existingItem  = state.cart.cartItems.find((item) => item.id === action.payload.id)
             if (existingItem?.quantity as number > 1) {
-                                existingItem!.quantity -= 1 
+                             const q=   existingItem!.quantity -= 1 
+                             existingItem!.price/=q
             }
             localStorage.setItem('cart', JSON.stringify(state.cart))
         },

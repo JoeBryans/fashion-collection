@@ -44,5 +44,8 @@ export type Category=Database["public"]["Tables"]["categories"]["Row"]
 export type Product=Database["public"]["Tables"]["product"]["Row"]
 export type Profile=Database["public"]["Tables"]["profile"]["Row"]
 export type Addresses=Database["public"]["Tables"]["address"]["Row"]
+export type Orders=Database["public"]["Tables"]["orders"]["Row"]
+export type OrderItems=Database["public"]["Tables"]["order_items"]["Row"]
+
 // export type Profile=Database["public"]["Tables"]["cart"]["Row"]
 
