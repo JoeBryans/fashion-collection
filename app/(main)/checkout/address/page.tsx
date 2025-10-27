@@ -1,8 +1,6 @@
-
-import Address from '@/components/custom/address/Address'
 import AdressCard from '@/components/custom/address/AdressCard'
 import { createClient } from '@/lib/supabase/sever'
-import { Addresses } from '@/lib/types'
+import { User } from '@supabase/supabase-js'
 import { redirect, RedirectType } from 'next/navigation'
 import React from 'react'
 
@@ -10,7 +8,7 @@ const page = async () => {
   const adress = false
   const supabase = await createClient()
   const { data: user, error } = await supabase.auth.getUser()
-  const userInfo = user?.user
+const userInfo:User|null = user?.user
 
   if (error) {
     console.log(error)
