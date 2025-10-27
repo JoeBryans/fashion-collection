@@ -15,13 +15,13 @@ const PlaceOrder = () => {
 
 
     };
-    const onSuccess = (reference) => {
+    const onSuccess = (reference:string) => {
         //  console.log(data);
     }
-    const onError = (reference) => {
+    const onError = (reference: string) => {
         //  console.log(error);
     }
-    const onClose = (reference) => {
+    const onClose = (reference: string) => {
         console.log('closed');
     }
 

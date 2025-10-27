@@ -13,8 +13,9 @@ const AddSizes = ({ setSizes, sizes }: { setSizes: React.Dispatch<React.SetState
     // console.log(sizes);
     
     const handleChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
-        const value:{size:string}[] = [...sizes]
-        value[index][e.target.name] = e.target.value;
+        const value = [...sizes] as Sizes[]
+        const name = e.target.name as keyof Sizes
+        value[index] = { ...value[index], [name]: e.target.value }
         setSizes(value)
         // setValue(e.target.value)
     }
