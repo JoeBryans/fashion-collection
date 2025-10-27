@@ -14,7 +14,7 @@ import { toast } from "sonner"
 export const Summary = () => {
     const { totalPrice, totalQuantity,cartItems } = useAppSelector((state) => state.cart.cart)
     const {paymentMethod, shippingAddress}=useAppSelector((state) => state.checkout)
-    const shipping_cost=10
+    const shipping_cost=15
 
     const [isLoading, setIsLoading] = useState(false)
 
