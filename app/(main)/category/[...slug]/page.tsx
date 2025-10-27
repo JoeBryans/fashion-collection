@@ -7,16 +7,18 @@ import {  Category, Product,  } from '@/lib/types'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
+import { type NextPage } from 'next';
 
+// Define the Props type for the page
+type Props = {
+  params: Promise<{
+    slug: string[];
+  }>;
+};
 
-interface ShopPageProps {
-  params: {
-    slug: string[]; // This is the type for the catch-all segment
-  };
-}
-
-async function page({ params }: ShopPageProps) {
-  const { slug } = params;
+// Page component
+const Page: NextPage<Props> = async ({ params }) => {
+  const { slug } = await params;
 
   // console.log("slug");
   
@@ -80,7 +82,7 @@ async function page({ params }: ShopPageProps) {
   )
 }
 
-export default page
+export default Page
 
 
 
