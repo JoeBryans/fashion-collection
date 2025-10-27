@@ -3,7 +3,7 @@ import SideFilter from '@/components/custom/Category/SideFilter'
 import Currency from '@/components/ui/currency'
 import { getDescendantCategoryIds } from '@/lib/supabase/query'
 import { supabase } from '@/lib/supabase/serverFun'
-import { Category, Product, } from '@/lib/types'
+import {  Category, Product,  } from '@/lib/types'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
@@ -21,47 +21,47 @@ const Page: NextPage<Props> = async ({ params }) => {
   const { slug } = await params;
 
   // console.log("slug");
-
+  
   const arraySlug = slug
-  console.log("arraySlug: ", arraySlug);
+  console.log("arraySlug: ", arraySlug );
 
 
 
   const sb = supabase()
   let category: Category | null = null
   let parentId: string = ""
-  for (const slug of arraySlug) {
-    console.log("slug: ", slug);
+ for (const slug of arraySlug) {
+   console.log("slug: ", slug);
 
-    let query = sb
-      .from("categories")
-      .select("id, name,slug, parent_id")
-      .eq("slug", slug)
-      .limit(1) // 👈 prevents multiple matches
+   let query = sb
+     .from("categories")
+     .select("id, name,slug, parent_id")
+     .eq("slug", slug)
+     .limit(1) // 👈 prevents multiple matches
 
 
-    if (parentId === null || parentId === "" || parentId === undefined) {
-      query = query?.is("parent_id", null);
-    } else {
-      query = query?.eq("parent_id", parentId);
-    }
-    const { data, error } = await query.maybeSingle<Category>();
+   if (parentId === null || parentId === "" || parentId === undefined) {
+     query = query?.is("parent_id", null);
+   } else {
+     query = query?.eq("parent_id", parentId);
+   }
+   const { data, error } = await query.maybeSingle<Category>();
 
-    //  category = data;
-    const result: Category | null = data;
-    if (!result) {
-      // if no category was found, stop traversing deeper
-      break;
-    }
-    parentId = result?.id; // move deeper
-    //  console.log("category: ", data);
-    category = result
-    //  return data
+  //  category = data;
+  const result: Category | null = data;
+  if (!result) {
+    // if no category was found, stop traversing deeper
+    break;
+  }
+   parentId = result?.id; // move deeper
+  //  console.log("category: ", data);
+   category = result
+   //  return data
   }
   console.log("category: ", category);
 
   const categoryId = await getDescendantCategoryIds(category!.id)
-
+  
   const cat_id = Array.isArray(categoryId) ? categoryId : []
 
 
@@ -72,7 +72,7 @@ const Page: NextPage<Props> = async ({ params }) => {
       category:categoryId ( id, name, slug )
     `).in("categoryId", cat_id);
 
-  const safeProducts = Array.isArray(products) ? products : []
+  const safeProducts =Array.isArray(products) ? products : []
   // console.log("result: ", products);
 
   return (
