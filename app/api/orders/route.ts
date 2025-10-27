@@ -18,11 +18,11 @@ interface OrderBody {
     payment_method: string
     order_items: OrderItems[]
 }
-interface  orderPayload  {
+interface orderPayload {
     user_id: string,
     total_quantity: number,
     total_price: number,
-    order_status:string,
+    order_status: string,
     payment_method: string,
     payment_status: string,
     shipping_address: {
@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
     const supabase = await createClient()
 
     console.log("paystack: ", paystack);
- 
+
 
     try {
         const { data, error } = await supabase.auth.getUser()
@@ -62,8 +62,28 @@ export async function POST(request: NextRequest) {
         const userInfo: User | null = data?.user
         const user_id = userInfo?.id
         // console.log("userInfo: ", userInfo);
-      
 
+        const payment = await paystack.transaction.initialize({
+            amount: total_price,
+            currency: "NGN",
+            description: "Order Placed",
+            reference: Date.now().toString(),
+            email: userInfo.email!,
+            name: userInfo.user_metadata?.name,
+            metadata: {
+                items_quantity: items_quantity,
+                total_price: total_price,
+                shipping_address: shipping_address,
+                payment_method: payment_method,
+            },
+        })
+        console.log("payment: ", payment);
+
+        if (!payment) {
+            // console.log(payment.error)
+            return NextResponse.json({ error: "Payment Failed" }, { status: 401 });
+
+        }
         const { data: orders, error: err } = await supabase
             .from('orders')
             .insert([
@@ -75,6 +95,7 @@ export async function POST(request: NextRequest) {
                     payment_method: payment_method,
                     payment_status: "unpaid",
                     shipping_address: shipping_address,
+                    reference: payment.data.reference,
                 }
             ])
             .select('*')
@@ -82,7 +103,7 @@ export async function POST(request: NextRequest) {
         console.log("orders: ", orders);
         if (err) {
             console.log(err)
-       return NextResponse.json({ error: err.message }, { status: 401 });
+            return NextResponse.json({ error: err.message }, { status: 401 });
 
         }
         const order: Orders = orders
@@ -97,8 +118,8 @@ export async function POST(request: NextRequest) {
                 // sub_total:item.sub_total,
             }
 
-        })  as ItemsPayload[]
-           console.log("items: ",Items);
+        }) as ItemsPayload[]
+        console.log("items: ", Items);
 
 
         const { data: order_item, error: err1 } = await supabase.from('order_items').insert(Items).select('*')
@@ -108,26 +129,12 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: err1.message }, { status: 401 });
 
         }
-       
+
         // console.log("item: ", items);
 
-        const payment = await paystack.transaction.initialize({
-            amount: total_price,
-            currency: "NGN",
-            description: "Order Placed",
-            reference: Date.now().toString(),
-            email: userInfo.email!,
-            name: userInfo.user_metadata?.name,
-            metadata: {
-                orderId: order_id,
-                items_quantity: items_quantity,
-                total_price: total_price,
-                shipping_address: shipping_address,
-                payment_method: payment_method,
-            },
-        })
 
-        console.log("payment: ", payment);
+
+        // console.log("payment: ", payment);
 
 
         return NextResponse.json({ data: payment.data.authorization_url })

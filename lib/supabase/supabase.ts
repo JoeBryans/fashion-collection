@@ -252,6 +252,7 @@ export type Database = {
           total_price: number
           total_quantity: number
           user_id: string | null
+          reference: string | null
         }
         Insert: {
           created_at?: string
@@ -263,6 +264,7 @@ export type Database = {
           total_price: number
           total_quantity: number
           user_id?: string | null
+          reference?: string | null
         }
         Update: {
           created_at?: string
@@ -274,6 +276,7 @@ export type Database = {
           total_price?: number
           total_quantity?: number
           user_id?: string | null
+          reference?: string | null
         }
         Relationships: []
       }
