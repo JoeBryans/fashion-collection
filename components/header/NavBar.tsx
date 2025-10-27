@@ -142,12 +142,12 @@ export default function NavBar() {
 
                   <ul className="grid w-[200px] gap-4 text-neutral-50">
                     <li>
-                      {/* <NavigationMenuLink asChild>
+                      <NavigationMenuLink asChild>
                         <Link href="#" className="flex-row items-center gap-2">
                           <CircleHelpIcon />
                           Backlog
                         </Link>
-                      </NavigationMenuLink> */}
+                      </NavigationMenuLink>
                       <NavigationMenuLink asChild>
                         <Link href="#" className="flex-row items-center gap-2">
                           <CircleIcon />
