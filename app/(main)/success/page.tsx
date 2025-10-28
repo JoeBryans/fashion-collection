@@ -1,14 +1,15 @@
 import { Orders } from '@/lib/types';
+import { NextPage } from 'next';
 import { redirect } from 'next/navigation';
 import React from 'react'
 
 interface Props {
-    searchParams: {
+    searchParams: Promise<{
         trxref: string,
         reference: string,
-    }
+    }>
 }
-const page = async ({ searchParams }: Props) => {
+const page:NextPage<Props> = async ({ searchParams }) => {
     const param = await searchParams
     const reference = param.reference;
     const verfy = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/paystack/verify?reference=${reference}`)

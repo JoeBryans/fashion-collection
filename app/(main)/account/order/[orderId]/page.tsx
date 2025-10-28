@@ -1,11 +1,12 @@
+import { NextPage } from 'next';
 import React from 'react'
 interface Props {
-    params: {
-        orderId: string,
-    }
+    params: Promise<{ orderId: string }>
+
 }
-const page =async ({ params }: Props) => {
-    const orderId =await params.orderId
+const page: NextPage<Props> = async ({ params }) => {
+    const param = await params
+    const orderId = param.orderId
     console.log(orderId);
 
     return (
