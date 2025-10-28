@@ -40,7 +40,7 @@ export default function RootLayout({
           disableTransitionOnChange
         > */}
           <NavBar />
-          <main className="min-h-[100vh]  text-neutral-900  w-full  overflow-auto  ">
+          <main className="min-h-screen  text-neutral-900  w-full  overflow-auto scrollbar-hide ">
             <Toaster richColors={true}  position="top-center"/>
             {children}</main>
         {/* </ThemeProvider> */}

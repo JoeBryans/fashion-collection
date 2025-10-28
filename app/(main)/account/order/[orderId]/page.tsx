@@ -4,8 +4,8 @@ interface Props {
         orderId: string,
     }
 }
-const page = ({ params }: Props) => {
-    const orderId = params.orderId
+const page =async ({ params }: Props) => {
+    const orderId =await params.orderId
     console.log(orderId);
 
     return (

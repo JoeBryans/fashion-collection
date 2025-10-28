@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { CircleCheckIcon, CircleHelpIcon, CircleIcon, Search, User2 } from "lucide-react"
+import { BarcodeIcon, CircleCheckIcon, CircleHelpIcon, CircleIcon, MoreHorizontal, MoreVerticalIcon, Search, User2, User2Icon } from "lucide-react"
 
 import {
   NavigationMenu,
@@ -54,8 +54,8 @@ export default function NavBar() {
           }
         }
       }
-      className="flex flex-col items-center justify-center w-full py-2 shadow-md bg-neutral-950 text-neutral-50 ">
-      <div className="flex justify-between items-center  px-5 gap-10 max-w-7xl w-full ">
+      className="flex flex-col items-center justify-center w-full py-2 shadow-md bg-neutral-950 text-neutral-50  ">
+      <div className="flex justify-between items-center  px-5 gap-10 max-w-7xl w-full mx-auto ">
         <motion.div
           initial={{ x: -500, opacity: 0 }}
           animate={
@@ -68,6 +68,7 @@ export default function NavBar() {
               }
             }
           }
+          // className="md:block hidden"
         >
           <Logo />
         </motion.div>
@@ -89,7 +90,7 @@ export default function NavBar() {
 
           <Searchs className="hidden md:flex" />
         </motion.div>
-        <NavigationMenu viewport={true}>
+        <NavigationMenu viewport={true} className="w-full py-1.5  relative " >
           <NavigationMenuList className="flex justify-end relative ">
             <motion.div
               initial={{ x: 500, opacity: 0 }}
@@ -105,22 +106,29 @@ export default function NavBar() {
               }
               className="flex gap-4 items-center relative "
             >
-              <NavigationMenuItem className="ml-4   ">
-                <NavigationMenuTrigger className="py-3 bg-neutral-900 border-1 hover:bg-neutral-900 ">
-                  {
-                    user !== null ?
-                      <div className="flex  flex-col my-2  items-center">
-                        <span className="line-clamp-1">Hello, {user?.user_metadata?.name}</span>
-                        {/* <h2>Acount & List</h2> */}
-                      </div>
-                      : <div className="flex  flex-col my-2  items-center">
-                        <span>Hello, sign in</span>
-                        <h2>Acount & List</h2>
-                      </div>
-                  }
+              <NavigationMenuItem className="    ">
+                <NavigationMenuTrigger className="py-3 bg-neutral-900 border hover:bg-neutral-900  ">
+                  <div className="sm:block hidden ">
+                    {
+                      user !== null ?
+                        <div className="flex  flex-col my-2  items-center">
+                          <span className="line-clamp-1">Hello, {user?.user_metadata?.name}</span>
+                          {/* <h2>Acount & List</h2> */}
+                        </div>
+                        : <div className="flex  flex-col my-2  items-center">
+                          <span>Hello, sign in</span>
+                          <h2>Acount & List</h2>
+                        </div>
+                    }
+                  </div>
+                  <div className=" sm:hidden rounded-full h-10 w-10 p-2">
+                    <User2Icon className="h-6 w-6" />
+
+                  </div>
                 </NavigationMenuTrigger>
 
-                <NavigationMenuContent className="w-50  z-50   bg-neutral-900 rounded-md shadow-md">
+
+                <NavigationMenuContent className="w-50 z-50   bg-neutral-900 rounded-md shadow-md ">
                   {
                     user === null &&
                     <div className="w-full  flex flex-col md:flex-row gap-5 px-3 items-center">
@@ -140,33 +148,35 @@ export default function NavBar() {
                   }
 
 
-                  <ul className="grid w-[200px] gap-4 text-neutral-50">
+                  <ul className="grid w-[200px] gap-4 text-neutral-50 mr-20">
                     <li>
                       <NavigationMenuLink asChild>
-                        <Link href="#" className="flex-row items-center gap-2">
-                          <CircleHelpIcon />
-                          Backlog
+                        <Link href="/account/profile" className="flex-row items-center gap-2">
+                          Profile
+                        </Link>
+                      </NavigationMenuLink>
+                      <NavigationMenuLink asChild>
+                        <Link href="/account/orders" className="flex-row items-center gap-2">
+                          Orders
+                        </Link>
+                      </NavigationMenuLink>
+                      <NavigationMenuLink asChild>
+                        <Link href="/account/saved-items" className="flex-row items-center gap-2">
+                          Saved Items
                         </Link>
                       </NavigationMenuLink>
                       <NavigationMenuLink asChild>
                         <Link href="#" className="flex-row items-center gap-2">
-                          <CircleIcon />
-                          To Do
-                        </Link>
-                      </NavigationMenuLink>
-                      <NavigationMenuLink asChild>
-                        <Link href="#" className="flex-row items-center gap-2">
-                          <CircleCheckIcon />
-                          Done
-                        </Link>
+                          Inbox                        </Link>
                       </NavigationMenuLink>
                     </li>
                   </ul>
                 </NavigationMenuContent>
               </NavigationMenuItem>
 
-              <CartBadge cart={cart} />
+              {/* <CartBadge cart={cart} /> */}
             </motion.div>
+            <CartBadge cart={cart} />
           </NavigationMenuList>
         </NavigationMenu>
         {/* <ModeToggle /> */}
