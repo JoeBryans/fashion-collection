@@ -31,7 +31,7 @@ const Page: NextPage<Props> = async ({ params }) => {
   let category: Category | null = null
   let parentId: string = ""
  for (const slug of arraySlug) {
-   console.log("slug: ", slug);
+  //  console.log("slug: ", slug);
 
    let query = sb
      .from("categories")
@@ -58,7 +58,7 @@ const Page: NextPage<Props> = async ({ params }) => {
    category = result
    //  return data
   }
-  console.log("category: ", category);
+  // console.log("category: ", category);
 
   const categoryId = await getDescendantCategoryIds(category!.id)
   

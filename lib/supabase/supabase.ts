@@ -1,3 +1,5 @@
+import { OrderItems, Product } from "../types"
+
 export type Json =
   | string
   | number
@@ -200,9 +202,9 @@ export type Database = {
         Row: {
           created_at: string
           id: number
-          order_id: string | null
+          order_id:string
           price: number
-          product_id: string
+          product_id: Product
           quantity: number
           sub_total: number | null
         }
@@ -250,9 +252,11 @@ export type Database = {
           payment_status: Database["public"]["Enums"]["payment_status"]
           shipping_address: Json
           total_price: number
+          order_items: OrderItems[]
           total_quantity: number
           user_id: string | null
           reference: string | null
+          delivered_at: Date 
         }
         Insert: {
           created_at?: string
@@ -265,6 +269,7 @@ export type Database = {
           total_quantity: number
           user_id?: string | null
           reference?: string | null
+          delivered_at?: string | null
         }
         Update: {
           created_at?: string
@@ -277,6 +282,7 @@ export type Database = {
           total_quantity?: number
           user_id?: string | null
           reference?: string | null
+          delivered_at?: string | null
         }
         Relationships: []
       }
@@ -288,7 +294,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      order_status: "pending" | "paid" | "delivered" | "shipped" | "cancel"
+      order_status: "pending" | "processing" | "delivered" | "shipped" | "returned"
       payment_status: "pending" | "paid" | "successful" | "cancel" | "failed"|"unpaid"
     }
     CompositeTypes: {

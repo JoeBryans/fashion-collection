@@ -1,4 +1,4 @@
-import { Archive, BellPlus, Book, BookAIcon, BookCheck, CreditCard, Inbox, Save, ScanEye, ShieldCheck, ShowerHead, User2, WalletCards } from "lucide-react";
+import { Archive, BellPlus, Book, BookAIcon, BookCheck, CreditCard, Inbox, LucideProps, Save, ScanEye, ShieldCheck, ShowerHead, User2, WalletCards } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
@@ -62,13 +62,19 @@ const Navs = [
    
 ]
 
+interface Navs{
+    name:string
+    path:string
+    icon:React.FC<LucideProps>
+}
+
 
 const SideBarAcc = () => {
     return (
         <div className="w-full h-screen  text-neutral-900 ">
             <div className="flex flex-col gap-2 p-2 ">
                 {
-                    Navs.map((nav, index) => {
+                    Navs.map((nav:Navs, index:number) => {
                         return (
                             <Link href={nav.path} key={index}>
                                 <div className="flex items-center gap-2 cursor-pointer hover:bg-neutral-100 rounded-md p-1.5">
