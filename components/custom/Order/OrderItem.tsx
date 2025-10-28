@@ -144,7 +144,8 @@ const OrderItem = async ({ orders }: { orders: Orders[] }) => {
 
                                         </CardContent>
                                         <CardFooter className='flex gap-4 px-5 justify-end items-center text-neutral-600 text-sm'>
-                                            <span> {order.total_quantity}Item's</span>
+                                            <span> {order.total_quantity}   Item&apos;s</span>
+                                            
                                             <span>Price : {order.total_price}</span>
                                             <DateFormat date={new Date(order.delivered_at)} />
                                             <span>Order ID : {order.id}</span>
@@ -242,7 +243,7 @@ const OrderItem = async ({ orders }: { orders: Orders[] }) => {
 
                                         </CardContent>
                                         <CardFooter className='flex gap-4 px-5 justify-end items-center text-neutral-600 text-sm'>
-                                            <span> {order.total_quantity}Item's</span>
+                                            <span> {order.total_quantity}Item&apos;s</span>
                                             <span>Price : {order.total_price}</span>
                                             <DateFormat date={new Date(order.delivered_at)} />
                                             <span>Order ID : {order.id}</span>
