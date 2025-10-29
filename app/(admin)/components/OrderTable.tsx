@@ -350,10 +350,10 @@ const TableCells = ({ isOpen, orderId, field, id, onDoubleClick, value, column, 
                         className='w-full px-2 py-3  hover:bg-neutral-100 focus:outline-none  rounded-md '
                     >
                         {
-                            column === "order_status" ? order_status.map((item: string) => {
-                                return <option value={item}>{item}</option>
-                            }) : payment_status.map((item: string) => {
-                                return <option value={item}>{item}</option>
+                            column === "order_status" ? order_status.map((item: string, index:number) => {
+                                return <option key={index} value={item}>{item}</option>
+                            }) : payment_status.map((item: string,index:number) => {
+                                return <option key={index}  value={item}>{item}</option>
                             })
                         }
 
