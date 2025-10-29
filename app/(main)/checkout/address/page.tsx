@@ -20,7 +20,6 @@ const userInfo:User|null = user?.user
 
   const { data: address, error: addressError } = await supabase.from('address').select('*').eq('user_id', userInfo?.id)
 
-  //  const result: Addresses  = address || [];
   console.log(address)
 
   if (addressError) {

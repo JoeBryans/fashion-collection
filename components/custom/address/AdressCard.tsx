@@ -4,48 +4,58 @@ import { createAdresse } from '@/hooks/store/slices/checkout'
 import { useAppDispatch } from '@/hooks/store/store'
 import { Addresses } from '@/lib/types'
 import { cn } from '@/lib/utils'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import React from 'react'
 
 const AdressCard = ({ address }: { address: Addresses[] }) => {
     const [selectedAddress, setSelectedAddress] = React.useState<Addresses | null>(null)
+    const path = usePathname()
+    const pathName = path.includes("account")
     const router = useRouter()
     const dispatch = useAppDispatch()
 
     const handelSelectAddress = (address: Addresses) => {
-        setSelectedAddress(address)
-        dispatch(createAdresse(address))
-        router.push(`/checkout/summary`)
+        if (pathName) {
+            return null
+        } else {
+
+            setSelectedAddress(address)
+            dispatch(createAdresse(address))
+            router.push(`/checkout/summary`)
+        }
 
     }
 
     return (
         <div className=' w-full max-w-3xl p-5 '>
-            <div className='flex flex-col gap-4 border-2 bg-white  rounded-lg p-4  '>
+            <div className='flex flex-col gap-4 border-2   rounded-lg p-4  '>
                 {
                     address.map((address: Addresses) => {
                         return (
                             <div key={address.id} className={cn('flex  gap-2  border-b-2 p-2 ',
-                                selectedAddress?.id === address.id ? 'border-2 rounded-lg' : 'bg-white text-neutral-800'
+                                selectedAddress?.id === address.id && 'border-2 rounded-lg'
 
                             )}
                                 onClick={() => handelSelectAddress(address)}
                             >
-                                <Checkbox className='w-5 h-5'
-                                    checked={selectedAddress?.id === address.id}
-                                />
+                                {
+                                    pathName ? null : <Checkbox className='w-5 h-5'
+                                        checked={selectedAddress?.id === address.id}
+                                    />
+                                }
+
                                 <div>
 
                                     <p className='text-sm'>
-                                        Location:  {address.location}</p>
+                                        Location :  {address.location}</p>
                                     <p className='text-sm'>
-                                        City: {address.city}</p>
+                                        City : {address.city}</p>
                                     <p className='text-sm'>
-                                        State: {address.state}</p>
+                                        State : {address.state}</p>
                                     <p className='text-sm'>
-                                        Country: {address.country}</p>
+                                        Country : {address.country}</p>
                                     <p className='text-sm'>
-                                        Zip Code: {address.zip_code}</p>
+                                        Zip Code : {address.zip_code}</p>
                                 </div>
                             </div>
                         )

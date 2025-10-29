@@ -10,7 +10,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { CartItem, CartState } from "@/hooks/store/slices/cart-slices"
-import {  ShoppingCartIcon } from "lucide-react"
+import { ShoppingCartIcon } from "lucide-react"
 import Image from "next/image"
 import { AddToCartButton } from "./cart-buttons"
 import Currency from "@/components/ui/currency"
@@ -26,7 +26,8 @@ export default function CartBadge({ cart }: CartState) {
         <div className="relative">
           <ShoppingCartIcon className="h-10 w-10 ml-4 cursor-pointer" />
           <span className="absolute -top-2 right-0 left-4  rounded-full  font-semibold  flex justify-center items-center z-20">
-            {cartQuantity}
+            {
+              cart.cartItems.length > 0 && cartQuantity}
 
           </span>
         </div>
@@ -44,23 +45,23 @@ export default function CartBadge({ cart }: CartState) {
         </SheetHeader>
         <div className="flex flex-col gap-4 px-4 ">
           {
-            cart.cartItems.slice(0,3).map((item: CartItem, index: number) => {
+            cart.cartItems.slice(0, 3).map((item: CartItem, index: number) => {
               return (
                 <div key={index} className="flex gap-2 items-center justify-center  overflow-x-auto ">
-                
-                    <div className="w-44 h-28">
-                      <Image src={item.images[0].url} alt='product' width={500} height={500}
-                        className='w-full h-28 object-cover rounded-md shadow-md'
-                      />
-                    </div>
-                    <div className="w-full px-5 flex flex-col gap-2 ">
-                      <span>{item.name}</span>
-                      {/* <span>quntity: {item.quantity}</span> */}
-                      <span>{item.price}</span>
-                      <Currency price={item.price} />
-                      <AddToCartButton product={item} />
-                    </div>
+
+                  <div className="w-44 h-28">
+                    <Image src={item.images[0].url} alt='product' width={500} height={500}
+                      className='w-full h-28 object-cover rounded-md shadow-md'
+                    />
                   </div>
+                  <div className="w-full px-5 flex flex-col gap-2 ">
+                    <span>{item.name}</span>
+                    {/* <span>quntity: {item.quantity}</span> */}
+                    <span>{item.price}</span>
+                    <Currency price={item.price} />
+                    <AddToCartButton product={item} />
+                  </div>
+                </div>
               )
             })
           }

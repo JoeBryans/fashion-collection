@@ -35,11 +35,11 @@ const Navs = [
         path: "/account/address",
         icon: User2
     },
-    {
-        name: "Order History",
-        path: "/account/order-history",
-        icon: User2
-    },
+    // {
+    //     name: "Order History",
+    //     path: "/account/order-history",
+    //     icon: User2
+    // },
     {
         name: "Payments",
         path: "/account/payments",

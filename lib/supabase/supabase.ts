@@ -250,7 +250,13 @@ export type Database = {
           order_status: Database["public"]["Enums"]["order_status"]
           payment_method: string
           payment_status: Database["public"]["Enums"]["payment_status"]
-          shipping_address: Json
+          shipping_address: {
+            location: string
+            city: string
+            state: string
+            zip_code: string
+            country: string
+          }
           total_price: number
           order_items: OrderItems[]
           total_quantity: number

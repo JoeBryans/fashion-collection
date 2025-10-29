@@ -3,10 +3,6 @@ import { User } from "@supabase/supabase-js";
 import { Addresses, Category, Product } from "../types";
 import { createClient } from "./sever";
 
-  import type { Database } from "./supabase";
-
-// import { ProductType } from "../types";
-
 interface SearchParams{
   name?:string
   size?:string
@@ -269,21 +265,20 @@ export async function getUser(){
   }
 }
 
-// export async function getAddress(){
-//   const supabase=await createClient()
-//   try {
-//     const userInfo=await getUser()
-//      const { data, error } = await supabase.from('address').select('*').eq('user_id', userInfo.id)
-//      if(error){
-//         console.log(error)
-//         return
-//      }
-//    const result= data
-//   // console.log(address)
-//   return result
-//   } catch (error) {
-//     console.log(error)
-//     return error as Error
+export async function getAddress(){
+  const supabase=await createClient()
+  try {
+    const userInfo=await getUser()as User
+     const { data, error } = await supabase.from('address').select('*').eq('user_id', userInfo.id)
+     if(error){
+        console.log(error)
+        return
+     }
+   const result: Addresses[] = data
+  return result 
+  } catch (error) {
+    console.log(error)
+    return error as Error
     
-//   }
-// }
+  }
+}

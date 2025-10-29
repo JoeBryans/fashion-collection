@@ -41,6 +41,10 @@ export const Summary = () => {
         const data=await result.json()
         if(result.ok){
             setIsLoading(false)
+            localStorage.removeItem("cart")
+            localStorage.removeItem("shippingAddress")
+            localStorage.removeItem("paymentMethod")
+
             toast.success("Order Placed Successfully")
             router.push(`${data.data}`)
 
