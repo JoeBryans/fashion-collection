@@ -14,12 +14,12 @@ const Navs = [
   },
   {
     name: "product",
-    path: "/dashboard/product",
+    path: "/dashboard/products",
     // icon:PlusIcon
   },
   {
     name: "order",
-    path: "/dashboard/order",
+    path: "/dashboard/orders",
     // icon:PlusIcon
   },
   {

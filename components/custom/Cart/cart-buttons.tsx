@@ -116,7 +116,7 @@ export const RemoveCartButton = ({ product, selectedColor, selectedSize, classNa
     const supabase = createClient()
 
     const removeFromCarts = async (product: Product | CartItem) => {
-        console.log("product: ", product)
+        // console.log("product: ", product)
         const { data, error } = await supabase.auth.getUser()
         const user = data?.user
         const cartItem: CartItem = {

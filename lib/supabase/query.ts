@@ -1,6 +1,6 @@
 "use server";
 import { User } from "@supabase/supabase-js";
-import { Addresses, Category, Product } from "../types";
+import { Addresses, Category, Orders, Product } from "../types";
 import { createClient } from "./sever";
 
 interface SearchParams{
@@ -282,3 +282,23 @@ export async function getAddress(){
     
   }
 }
+
+
+export async function getAllOrders(){
+  const supabase=await createClient()
+  try {
+    const { data, error } = await supabase.from('orders').select(
+    '*,order_items(*,product_id(name,images,price,categoryId(name,slug,parent_id)))'
+  )
+  if (error) {
+    console.log(error)
+    return
+  }
+  const result: Orders[] = data
+  return result
+  } catch (error) {
+    console.log(error)
+    return error as Error
+    
+  }
+} 

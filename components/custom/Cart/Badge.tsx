@@ -18,7 +18,7 @@ import Link from "next/link"
 
 export default function CartBadge({ cart }: CartState) {
   const cartQuantity = cart.totalQuantity
-  console.log("cartQuantity: ", cartQuantity)
+  // console.log("cartQuantity: ", cartQuantity)
 
   return (
     <Sheet>
