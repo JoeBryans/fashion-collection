@@ -54,6 +54,7 @@ interface PaymentMethod {
 const DetailCard = ({ product }: { product: Product }) => {
     const [selectedColor, setSelectedColor] = useState<string>("")
     const [selectedSize, setSelectedSize] = useState<string>("")
+    const [isOpen, setIsOpen] = useState(false)
 
     // console.log(selectedColor);
     const supabase = createClient()
@@ -88,11 +89,18 @@ const DetailCard = ({ product }: { product: Product }) => {
                 </Link>
             }
 
-            <div className="flex flex-col gap-2 border-2 border-neutral-300 p-4 rounded-md my-1">
+            <div className="flex flex-col gap-2 border-2 border-neutral-300 p-4 rounded-md my-1"
+            onClick={() => setIsOpen(!isOpen)}
+            >
                 <span>you can make payments directly without adding to cart</span>
 
-                <Tooltip>
-                    <TooltipTrigger className="flex items-center gap-1" >
+                <Tooltip
+                // onOpenChange={ }
+                open={isOpen}
+                >
+                    <TooltipTrigger className="flex items-center gap-1"
+                        onClick={() => setIsOpen(!isOpen)}
+                    >
 
                         select your payment method <BadgeInfo />
                     </TooltipTrigger>

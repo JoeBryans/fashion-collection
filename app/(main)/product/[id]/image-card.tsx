@@ -24,9 +24,9 @@ const ImageCard = ({ images }: { images: Images[] }) => {
  }
     return (
         <div className='w-full mx-auto max-w-xl border-2 border-neutral-300 rounded-lg p-2'>
-            <div className='w-full h-96'>
+            <div className='w-full h-lg'>
                 <Image src={images[imageIndex].url} alt='product' width={500} height={500}
-                    className='w-full h-full object-fill rounded-md '
+                    className='w-full h-lg object-cover rounded-md '
                 />
                 
             </div>
@@ -35,7 +35,7 @@ const ImageCard = ({ images }: { images: Images[] }) => {
                     return <Image src={image.url} 
                     key={index}
                     alt='product' width={500} height={500}
-                        className='w-44 h-24  object-fill rounded-md '
+                        className='w-44 h-24  object-cover rounded-md '
                         onClick={() => {
                             setImageIndex(index)
                         }}

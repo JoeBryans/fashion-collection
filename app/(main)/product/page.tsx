@@ -5,7 +5,7 @@ import { Product } from '@/lib/types'
 import { NextPage } from 'next'
 import React from 'react'
 import { int } from 'zod'
-interface SearchParams{
+interface SearchParams {
   slug: string
   id: string
   category: string
@@ -18,14 +18,16 @@ interface SearchParams{
   page: string
   perPage: string
   sort: string
+  q: string
 }
-type Props={
-    searchParams: Promise<SearchParams>
+type Props = {
+  searchParams: Promise<SearchParams>
 }
-const page:NextPage<Props> = async ({ searchParams }: Props) => {
+const page: NextPage<Props> = async ({ searchParams }: Props) => {
   const searchParam = await searchParams
   // console.log("searchParams: ", await searchParams);
-  const product = await FilterProducts(searchParam)
+  const respons = await FilterProducts(searchParam)
+  const product = respons?.result
   const products = Array.isArray(product) ? product : []
   console.log("result: ", products);
 
