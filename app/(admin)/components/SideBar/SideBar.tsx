@@ -42,7 +42,7 @@ const Navs = [
 
 const SideBar = () => {
   return (
-    <div className="w-60 h-screen bg-neutral-50 text-neutral-900 border-r-2 border-neutral-300">
+    <div className="w-60 h-screen bg-neutral-50 text-neutral-900 my-20 ">
       <div className="flex flex-col gap-4 p-4">
         {
           Navs.map((nav, index) => {

@@ -35,7 +35,7 @@ const Navbar = () => {
                                 </Button></Link>
                     }
                     {
-                        newProduct ? null : <Link href="/dashboard/new-product">
+                        newProduct ? null : <Link href="/dashboard/new-products">
                             <Button variant={"default"}
 
                                 className='bg-neutral-900 flex w-max items-center cursor-pointer'
