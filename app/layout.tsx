@@ -5,6 +5,7 @@ import { ThemeProvider } from "../components/theme-provider";
 import NavBar from "@/components/header/NavBar";
 import { Toaster } from "sonner";
 import Provider from "./Provider";
+import Footer from "@/components/custom/footer/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -43,6 +44,7 @@ export default function RootLayout({
           <main className="min-h-screen  text-neutral-900  w-full  overflow-auto scrollbar-hide ">
             <Toaster richColors={true}  position="top-center"/>
             {children}</main>
+          <Footer/>
         {/* </ThemeProvider> */}
         </Provider>
         </body>

@@ -36,6 +36,24 @@ export const getAllProducts = async () => {
   const result: Product[] = data
   return result
 }
+export const getLatestProducts = async () => {
+  const supabase = await createClient()
+  const thirtyDaysAgo = new Date()
+  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
+  // console.log("thirtyDaysAgo :", thirtyDaysAgo);
+
+  const { data, error } = await supabase.from('product').select(
+    `*,categoryId(id,name,description)`
+  ).gte("created_at", thirtyDaysAgo.toISOString())
+  if (error) {
+    console.log(error)
+    return
+  }
+  // console.log("data: ",data);
+  
+  const result: Product[] = data
+  return result
+}
 
 // export const getAllCategories=async ()=>{
 //   const supabase = createClient()
@@ -73,16 +91,40 @@ export const getRelatedProducts = async (category: string | undefined) => {
   return result
 }
 
-export const getAllCategories = async () => {
+export const getAllCategories = async (searchParams: SearchParams) => {
   const supabase = await createClient()
+  const page = Number(searchParams?.page) || 1
+
+  const limit = Number(searchParams?.limit) || 10
+  const offSet = (page - 1) * limit
   try {
-    const { data, error } = await supabase.from('categories').select('*').order('id', { ascending: true })
+
+    const query = supabase.from('categories').select('*', { count: "exact" })
+    if (searchParams?.q) {
+      // console.log("searchParams.q: ", searchParams.q);
+      query.or(
+        `name.ilike.%${searchParams.q}%,slug.ilike.%${searchParams.q}%`,
+      )
+
+    }
+
+    query.order('id', { ascending: true }).range(offSet, offSet + limit - 1)
+
+    const { data, error, count } = await query
     if (error) {
       console.log(error)
       return
     }
+    console.log("count: ", count);
+    // console.log("no query: ", data);
+
     const result: Category[] = data
-    return result
+    return {
+      result: result,
+      count: count as number,
+      page: page as number,
+      totalPage: Math.ceil(count as number / limit)
+    }
   } catch (error) {
     console.log(error)
     return error as Error
@@ -169,9 +211,9 @@ export async function getDescendantCategoryIds(categoryId: string,) {
 export async function FilterProducts(searchParams: SearchParams) {
   const supabase = await createClient();
   const page = Number(searchParams?.page) || 1
-  
-  const limit = Number(searchParams?.limit) || 2
- 
+
+  const limit = Number(searchParams?.limit) || 10
+
   const offSet = (page - 1) * limit
 
   console.log("searchParams: ", searchParams)
@@ -216,7 +258,7 @@ export async function FilterProducts(searchParams: SearchParams) {
 
     // query=query
 
-    const { data,count ,error } = await query.order('id', { ascending: true }).range(offSet, offSet + limit - 1)
+    const { data, count, error } = await query.order('id', { ascending: true }).range(offSet, offSet + limit - 1)
 
     if (error) {
       console.log(error.message)
@@ -227,10 +269,10 @@ export async function FilterProducts(searchParams: SearchParams) {
 
     const result: Product[] = data
     return {
-      result:result,
-      count:count as number,
-      page:page as number,
-      totalPage:Math.ceil(count as number / limit)
+      result: result,
+      count: count as number,
+      page: page as number,
+      totalPage: Math.ceil(count as number / limit)
     }
   } catch (error) {
     console.log(error)
@@ -308,21 +350,97 @@ export async function getAddress() {
 }
 
 
-export async function getAllOrders() {
+export async function getAllOrders(searchParam: SearchParams) {
   const supabase = await createClient()
+  const page = Number(searchParam?.page)||1
+  console.log("seachPage", page);
+
+  const limit = Number(searchParam?.limit) || 10
+  const offSet = (page - 1) * limit
   try {
-    const { data, error } = await supabase.from('orders').select(
-      '*,order_items(*,product_id(name,images,price,categoryId(name,slug,parent_id)))'
+    const query = supabase.from('orders').select(
+      '*,order_items(*,product_id(name,images,price,categoryId(name,slug,parent_id)))', { count: "exact" }
     )
+
+    if (searchParam?.q) {
+
+      const order_status = ["pending", "processing", "delivered", "shipped", "returned"]
+      const payment_status = ["pending", "paid", "successful", "cancel", "failed", "unpaid"]
+      const q = String(searchParam.q)
+
+      if (order_status.includes(q)) {
+        query.or(
+          `order_status.eq.${q}`
+        )
+      }
+      if (payment_status.includes(q)) {
+        query.or(
+          `payment_status.eq.${q}`
+        )
+      }
+    }
+
+    if (searchParam?.q) {
+      const payment_method = ["cash on delivery", "Debit Card", "Paypal"]
+      const q = String(searchParam.q)
+      if (payment_method.includes(q)) {
+        query.or(
+          `payment_method.ilike.%${q}%`
+        )
+      }
+    }
+
+
+    query.order("created_at", { ascending: true })
+    const { data, error, count } = await query.range(offSet, offSet + limit - 1)
     if (error) {
       console.log(error)
       return
     }
+    console.log("data: ", data)
+
     const result: Orders[] = data
-    return result
+    return {
+      result: result,
+      count: count as number,
+      page: page as number,
+      totalPage: Math.ceil(count as number / limit)
+    }
   } catch (error) {
     console.log(error)
     return error as Error
 
   }
-} 
+}
+
+
+export const dashboardQuery = async () => {
+  const supabase = await createClient()
+  try {
+    const { count: productCount } = await supabase.from('product').select('*', { count: "exact" })
+    const { count: categoryCount } = await supabase.from('categories').select('*', { count: "exact" })
+    const orders= await supabase.from('orders').select('*', { count: "exact" }).eq('order_status', 'delivered')
+
+    const totalSales = supabase.from('orders').select('*', { count: "exact" })
+    if (totalSales) {
+      totalSales.or(
+        `order_status.eq.${"delivered"}, payment_status.eq.${"paid"}`
+      )
+    }
+    const { data: sales, error } = await totalSales
+    const sumSale = sales!.reduce((a, b) => a + b.total_price, 0)
+    // const addressCount = await supabase.from('address').select('*', { count: "exact" })
+    const { count: profileCount } = await supabase.from('profile').select('*', { count: "exact" })
+    const queryResult = await Promise.all([{ product: productCount, category: categoryCount, order: { count: orders.count, order: orders.data}, profile: profileCount, sales: sumSale }])
+
+    // console.log("queryResult: ", queryResult);
+
+
+    return queryResult
+  } catch (error) {
+    console.log(error)
+
+    return
+  }
+}
+

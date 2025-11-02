@@ -16,24 +16,46 @@ import { Checkbox } from '@/components/ui/checkbox'
 import CategoryForm from '../../components/category-form'
 import { Button } from '@/components/ui/button'
 import { Edit } from 'lucide-react'
+import { NextPage } from 'next'
+import Pagination from '../../components/pagination'
+
+interface Props {
+    searchParams: Promise<{
+        q: string
+        page: string
+
+    }>
+}
+
+interface CategoriesFilter {
+    result: Category[]
+    count: number
+    page: number
+    totalPage: number
+}
 
 
 
+const categoryPage: NextPage<Props> = async ({ searchParams }: Props) => {
+    const searchParam = await searchParams
+    const respons = await getAllCategories(searchParam) as CategoriesFilter
+    const { count, page, totalPage } = respons
+    const categories = respons?.result
 
-
-const page = async () => {
-    const categories = await getAllCategories()
+    console.log("respons: ", respons);
     // Ensure categories is always an array
     const safeCategories =
         Array.isArray(categories) ? categories : []
     return (
-        <div>
+        <div className='w-6xl max-w-full mx-auto flex flex-col gap-4 items-start '>
             <CategoryTable categories={safeCategories} />
+            <Pagination page={page} totalPage={totalPage} />
+
         </div>
     )
 }
 
-export default page
+export default categoryPage
 
 function CategoryTable({ categories }: { categories: Category[] }) {
     return (
@@ -76,6 +98,7 @@ function CategoryTable({ categories }: { categories: Category[] }) {
                         </TableRow>
                     ))}
                 </TableBody>
+
 
             </Table>
         </div>

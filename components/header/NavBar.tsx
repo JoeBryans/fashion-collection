@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { BarcodeIcon, CircleCheckIcon, CircleHelpIcon, CircleIcon, MoreHorizontal, MoreVerticalIcon, Search, User2, User2Icon } from "lucide-react"
+import { Bell, User2, User2Icon } from "lucide-react"
 
 import {
   NavigationMenu,
@@ -11,23 +11,21 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
-import { ModeToggle } from "../mode"
 import Logo from "./Logo"
-import { Input } from "../ui/input"
-import { Button } from "../ui/button"
 import CartBadge from "../custom/Cart/Badge"
 import Searchs from "./Search"
 import { motion } from "framer-motion"
 import { createClient } from "@/lib/supabase/client"
 import { User } from "@supabase/auth-js/src/lib/types"
 import { useAppSelector } from "@/hooks/store/store"
+import { usePathname } from "next/navigation"
 
 
 export default function NavBar() {
   const cart = useAppSelector((state) => state.cart.cart)
-
+  const path=usePathname()
+  const isDashboard=path.includes("dashboard")
   const supabase = createClient()
   const [user, setUser] = React.useState<User | null>(null)
 
@@ -90,7 +88,7 @@ export default function NavBar() {
 
           <Searchs className="hidden md:flex" />
         </motion.div>
-        <NavigationMenu viewport={true} className="w-full py-1.5  relative " >
+        {!isDashboard ?<NavigationMenu viewport={true} className="w-full py-1.5  relative " >
           <NavigationMenuList className="flex justify-end relative ">
             <motion.div
               initial={{ x: 500, opacity: 0 }}
@@ -178,7 +176,11 @@ export default function NavBar() {
             </motion.div>
             <CartBadge cart={cart} />
           </NavigationMenuList>
-        </NavigationMenu>
+        </NavigationMenu>:<div className="flex items-center gap-4">
+          <span>{user?.user_metadata?.name}</span>
+         <Bell/>
+
+          </div>}
         {/* <ModeToggle /> */}
       </div>
       <Searchs className="w-[95%] mt-6 md:hidden" />

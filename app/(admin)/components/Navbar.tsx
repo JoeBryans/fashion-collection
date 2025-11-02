@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React from 'react'
 
+
 const Navbar = () => {
     const [value,setValue]=React.useState("")
     const path = usePathname()

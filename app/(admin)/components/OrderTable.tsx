@@ -8,18 +8,29 @@ import { createClient } from '@/lib/supabase/client'
 import { Orders } from '@/lib/types'
 import { cn } from '@/lib/utils'
 import { Trash2, X } from 'lucide-react'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import React, { ChangeEvent, useState } from 'react'
 import { toast } from 'sonner'
-import { check, set } from 'zod'
+import NavigationButton from './pagination'
+interface Props{
+    orders:Orders[]
+    count:number
+    page:number
+    totalPage:number
+    searchParam:{
+        q:string
+        page:string
+        
+    }
+}
 
-const OrderTable = ({ orders }: { orders: Orders[] }) => {
+const OrderTable = ({ orders,count,page,totalPage,searchParam }:Props) => {
     const [isOpen, setIsOpen] = useState(false);
     const [field, setField] = useState<string | null>(null);
     const [orderId, setOrderId] = useState<string | null>(null);
     const [ordersId, setOrdersId] = useState<string[]>([]);
 
-    // console.log("orderId:", ordersId);
+    console.log("totalPage: ",totalPage)
 
 
     const handelEditOrder = (id?: string, name?: string) => {
@@ -95,7 +106,7 @@ const OrderTable = ({ orders }: { orders: Orders[] }) => {
                 </TableHeader>
 
                 <TableBody className='relative'>
-                    {orders.map((order: Orders) => (
+                    {orders?.length>0&&orders.map((order: Orders) => (
                         <TableRow key={order.id}
                         // onDoubleClick={()=>handelEditOrder()}
 
@@ -228,15 +239,15 @@ const OrderTable = ({ orders }: { orders: Orders[] }) => {
                         </TableRow>
                     ))}
                 </TableBody>
-                <TableFooter>
+                {/* <TableFooter>
                     <TableRow>
                         <TableCell colSpan={3} className='flex gap-4 items-center'>
-                            <Button variant="outline" className='w-max'>Prev</Button>
-                            <Button variant="dark" className='w-max'>Next</Button>
+                            
+                           
                         </TableCell>
 
                     </TableRow>
-                </TableFooter>
+                </TableFooter> */}
             </Table>
         </div>
     )

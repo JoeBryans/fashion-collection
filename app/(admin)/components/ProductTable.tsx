@@ -22,31 +22,16 @@ import Link from 'next/link'
 
 interface Props{
     products:Product[]
-    count:number
-    page:number
-    totalPage:number
-    searchParam:{
-        q?:string
-        page?:string
-        brand?:string
-        color?:string
-    }
+     
 }
 
-const ProductTable = ({ products, count, page, totalPage, searchParam }: Props) => {
+const ProductTable = ({ products}: Props) => {
     const [isOpen, setIsOpen] = useState(false);
     const [field, setField] = useState<string | null>(null);
     const [productId, setProductId] = useState<string | null>(null);
     const [productsId, setProductsId] = useState<string[]>([]);
-    const [pages, setPage] = useState(1);
-
-    const path=usePathname()
-    //    const [index, setIndex] = useState(0);
 
 
-    useEffect(() => {
-        setPage(pages)
-    }, [pages])
 
     const handleEditProduct = (id?: string, name?: string) => {
         setIsOpen((prevState) => !prevState);
@@ -239,45 +224,7 @@ const ProductTable = ({ products, count, page, totalPage, searchParam }: Props) 
                         </TableRow>
                     ))}
                 </TableBody>
-                <TableFooter>
-                    <TableRow>
-                        <TableCell colSpan={3} className='flex gap-4 items-center'>
-                            <Button variant="outline" className='w-max'
-                                onClick={() => setPage((p) => Math.max(1, p - 1))}
-                                disabled={page === 1}
-                            >
-                                <Link 
-                                    href={
-                                        {
-                                            pathname: path,
-                                            query: { q: searchParam.q, page: pages}
-                                        }
-                                    }
-                                >
-                                    Prev
-                                </Link>
-                            </Button>
-                            <span>{page}/{totalPage}</span>
-                            {/* <span>{totalPage}</span> */}
-                            <Button variant="dark" className='w-max'
-                                onClick={() => setPage((p) => Math.min(totalPage, p +1))}
-                             disabled={page === totalPage}
-                            >
-                                <Link 
-                                href={
-                                    {
-                                        pathname:path,
-                                        query:{q:searchParam.q,page:pages}
-                                    }
-                                }
-                                
-                                >
-                                    Next</Link>
-                            </Button>
-                        </TableCell>
-
-                    </TableRow>
-                </TableFooter>
+               
             </Table>
         </div>
     )

@@ -29,7 +29,7 @@ const page: NextPage<Props> = async ({ searchParams }: Props) => {
   const respons = await FilterProducts(searchParam)
   const product = respons?.result
   const products = Array.isArray(product) ? product : []
-  console.log("result: ", products);
+  // console.log("result: ", products);
 
 
 
